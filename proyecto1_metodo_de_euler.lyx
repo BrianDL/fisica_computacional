@@ -1,0 +1,325 @@
+#LyX 2.4 created this file. For more info see https://www.lyx.org/
+\lyxformat 620
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\use_default_options true
+\maintain_unincluded_children no
+\language american
+\language_package default
+\inputencoding utf8
+\fontencoding auto
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_roman_osf false
+\font_sans_osf false
+\font_typewriter_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement class
+\float_alignment class
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_formatted_ref 0
+\use_minted 0
+\use_lineno 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tablestyle default
+\tracking_changes true
+\output_changes false
+\change_bars false
+\postpone_fragile_content true
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\docbook_table_output 0
+\docbook_mathml_prefix 1
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Método de Euler
+\end_layout
+
+\begin_layout Author
+Brian David Leiva - 2005 106 31 - fisica.cn28c@slmail.me
+\end_layout
+
+\begin_layout Abstract
+En el siguiente documento presentamos una implementación del método de Euler para analizar el comportamiento de un proyectil lanzado con una velocidad inicial dada en un medio con fuerza de arrastre asociada.
+\end_layout
+
+\begin_layout Section
+Modelado del sistema
+\end_layout
+
+\begin_layout Standard
+Utilizamos la función proyectil para modelar el sistema.
+ esta función toma los parametros requeridos y les da los valores por defecto que se pidieron.
+\end_layout
+
+\begin_layout Paragraph*
+Parámetros de la Función
+\end_layout
+
+\begin_layout Standard
+La función `proyectil` toma los siguientes parámetros:
+\end_layout
+
+\begin_layout Standard
+- `b2_m` (float):
+ Coeficiente de arrastre dividido por la masa del proyectil.
+\end_layout
+
+\begin_layout Standard
+- `g` (float):
+ Aceleración debida a la gravedad.
+\end_layout
+
+\begin_layout Standard
+- `v_0` (float):
+ Velocidad inicial del proyectil.
+\end_layout
+
+\begin_layout Standard
+- `theta` (float):
+ Ángulo de lanzamiento del proyectil.
+\end_layout
+
+\begin_layout Standard
+- `N` (int):
+ Número máximo de iteraciones.
+\end_layout
+
+\begin_layout Standard
+- `delta_t` (float):
+ Tamaño del paso de tiempo para la simulación.
+\end_layout
+
+\begin_layout Standard
+- `stop_fn` (función):
+ Función opcional para determinar cuándo detener la simulación.
+\end_layout
+
+\begin_layout Paragraph*
+Variables Iniciales
+\end_layout
+
+\begin_layout Standard
+Se inicializan las posiciones (`x`,
+ `y`) y las componentes de la velocidad (`v_x`,
+ `v_y`) del proyectil.
+ Las velocidades iniciales se calculan a partir de la velocidad inicial y el ángulo de lanzamiento.
+\end_layout
+
+\begin_layout Paragraph*
+Iteración del Método de Euler
+\end_layout
+
+\begin_layout Standard
+La función utiliza un bucle `while` para iterar hasta que se cumpla la condición de parada definida por `stop_fn`.
+ En cada iteración,
+ se realizan los siguientes pasos:
+\end_layout
+
+\begin_layout Standard
+1.
+ **Cálculo de la Velocidad Actual**:
+ Se calcula la magnitud de la velocidad a partir de sus componentes.
+\end_layout
+
+\begin_layout Standard
+2.
+ **Actualización de las Velocidades**:
+ Se actualizan las componentes de la velocidad utilizando las ecuaciones del método de Euler,
+ que consideran la fuerza de arrastre y la gravedad.
+\end_layout
+
+\begin_layout Standard
+3.
+ **Actualización de las Posiciones**:
+ Se actualizan las posiciones del proyectil.
+\end_layout
+
+\begin_layout Standard
+4.
+ **Almacenamiento de Resultados**:
+ Se almacenan las posiciones y velocidades en listas para su posterior análisis.
+\end_layout
+
+\begin_layout Standard
+5.
+ **Incremento del Contador de Iteraciones**:
+ Se incrementa el contador de iteraciones.
+\end_layout
+
+\begin_layout Paragraph*
+Valores de retorno
+\end_layout
+
+\begin_layout Standard
+La función nos devuelve una tupla con cuatro elementos,
+ las cuales son listas con los valores en 
+\begin_inset Formula $x$
+\end_inset
+
+,
+ los valores en 
+\begin_inset Formula $y$
+\end_inset
+
+,
+ y las componentes en 
+\begin_inset Formula $x$
+\end_inset
+
+ y 
+\begin_inset Formula $y$
+\end_inset
+
+ de la velocidad en cada momento.
+ De esta manera,
+ cada índice 
+\begin_inset Formula $i$
+\end_inset
+
+ de cada una de las listas corresponde al valor de esa variable en el momento 
+\begin_inset Formula $\Delta t=i$
+\end_inset
+
+.
+ Es decir 
+\begin_inset Formula $xs[5]$
+\end_inset
+
+ es el valor de la coordenada 
+\begin_inset Formula $x$
+\end_inset
+
+ en el tiempo 
+\begin_inset Formula $t=5$
+\end_inset
+
+ esto nos facilita utilizar estos valores con el software de graficado (matplotlib).
+\end_layout
+
+\begin_layout Paragraph*
+Funciones Auxiliares
+\end_layout
+
+\begin_layout Standard
+La función `v` calcula la magnitud de la velocidad a partir de sus componentes.
+ La función `es_x_maximo` permite detener la simulación cuando el proyectil alcanza su altura máxima,
+ esta es una de las posibles funciones de detenido que utilizaremos más adelante para encontrar el alcance horizontal.
+\end_layout
+
+\begin_layout Section
+Cáculo de la trayectoria
+\end_layout
+
+\begin_layout Standard
+Para calcular la trayectoria utilizamos la función proyectil definida anteriormente,
+ utilizamos 
+\begin_inset Formula $b_{2}/m=0$
+\end_inset
+
+ para el caso sin resistencia del aire y el valor dado por defecto para el caso con resistencia.
+ La función proyectil nos devuelve una tupla con cuatro listas,
+ de las cuales tomamos las dos primeras,
+ es decir la lista de todas las posiciones en 
+\begin_inset Formula $x$
+\end_inset
+
+ y la de las posiciones en 
+\begin_inset Formula $y$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Las graficamos para obtener la figura 1 en la cual podemos observar
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+alignment left
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename /home/user/Downloads/con_y_sin_resistencia.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
