@@ -73,7 +73,7 @@
 \papersides 1
 \paperpagestyle default
 \tablestyle default
-\tracking_changes true
+\tracking_changes false
 \output_changes false
 \change_bars false
 \postpone_fragile_content true
@@ -267,6 +267,37 @@ Cáculo de la trayectoria
 \end_layout
 
 \begin_layout Standard
+\begin_inset Float figure
+placement h
+alignment left
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename con_y_sin_resistencia.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 Para calcular la trayectoria utilizamos la función proyectil definida anteriormente,
  utilizamos 
 \begin_inset Formula $b_{2}/m=0$
@@ -287,7 +318,26 @@ Para calcular la trayectoria utilizamos la función proyectil definida anteriorm
 \end_layout
 
 \begin_layout Standard
-Las graficamos para obtener la figura 1 en la cual podemos observar
+Las graficamos para obtener la figura 1 en la cual podemos observar que dos de las propiedades más sobresalientes son que la trayectoria con resistencia del aire deja de moverse por completo en la dirección 
+\begin_inset Formula $x$
+\end_inset
+
+,
+ lo cual podemos explicar porque la resistencia del viento representa una fuerza constante en la dirección 
+\begin_inset Formula $-x$
+\end_inset
+
+ y termina por llevar la velocidad a cero.
+ Lo segundo es que a pesar de que no se detiene en la dirección 
+\begin_inset Formula $y$
+\end_inset
+
+ si avanza mucho menos en la misma debido a que se establece en la una velocidad tal que la fuerza de arrastre es equivalente a la fuerza de gravedad.
+ Velocidad que ya conocemos como velocidad terminal.
+\end_layout
+
+\begin_layout Section
+Cálculo del Alcance Horizontal
 \end_layout
 
 \begin_layout Standard
@@ -303,7 +353,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename /home/user/Downloads/con_y_sin_resistencia.png
+	filename alcance_horizontal.png
 	scale 60
 
 \end_inset
@@ -319,6 +369,77 @@ status open
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Para calcular el alcance horizontal utilizamos la función de detenido es_x_maximo en el parámetro stop_fn de la función proyectil.
+ Lo que detendrá la simulación en el momento en que el valor de 
+\begin_inset Formula $y$
+\end_inset
+
+ sea igual o menor a cero.
+ Lo cual devolverá el último (y máximo) valor de 
+\begin_inset Formula $x$
+\end_inset
+
+ en xs[-1].
+ Para verificarlo,
+ graficamos la trayectoria de un tiro de proyectil obteniendo la figura 2.
+\end_layout
+
+\begin_layout Section
+Verificación del Ángulo inicial Óptimo sin Fuerza de Arrastre
+\end_layout
+
+\begin_layout Standard
+Para verificar el ángulo óptimo de 45 grados que se nos pide definimos la función angulos_a_alcance,
+ la cual devuelve un diccionario cuyas claves son los ángulos y sus valores son los alcances horizontales correspondientes.
+\end_layout
+
+\begin_layout Paragraph*
+Parámetros de la Función
+\end_layout
+
+\begin_layout Standard
+La función angulos_a_alcance toma los siguientes parámetros:
+\end_layout
+
+\begin_layout Standard
+delta_theta (int):
+ Incremento en grados para variar el ángulo de lanzamiento.
+\end_layout
+
+\begin_layout Standard
+b2_m (float):
+ Coeficiente de arrastre dividido por la masa del proyectil (por defecto es 0,
+ ignorando la resistencia del aire).
+\end_layout
+
+\begin_layout Standard
+Variables Iniciales
+\end_layout
+
+\begin_layout Standard
+Se inicializa un diccionario resultado para almacenar el alcance horizontal máximo para cada ángulo.
+ La variable grados se inicializa en 0 para comenzar desde un ángulo de 0 grados.
+\end_layout
+
+\begin_layout Paragraph*
+Iteración para Variar el Ángulo
+\end_layout
+
+\begin_layout Standard
+La función utiliza un bucle while para iterar sobre diferentes ángulos de lanzamiento,
+ desde 0 hasta 90 grados,
+ incrementando el ángulo en delta_theta grados en cada iteración.
+ En cada iteración,
+ se convierte el ángulo actual de grados a radianes utilizando la función radianes_desde.
+ Luego,
+ se llama a la función proyectil con el ángulo actual y el coeficiente de arrastre especificado.
+ La simulación se detiene cuando el proyectil alcanza su alcance horizontal máximo utilizando la función es_x_maximo.
+ El alcance horizontal máximo (xs[-1]) se almacena en el diccionario resultado con la clave correspondiente al ángulo en grados.
+ Finalmente,
+ se incrementa el ángulo en delta_theta grados para la siguiente iteración.
 \end_layout
 
 \end_body
