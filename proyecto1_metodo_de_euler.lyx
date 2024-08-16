@@ -405,17 +405,17 @@ La función angulos_a_alcance toma los siguientes parámetros:
 \end_layout
 
 \begin_layout Standard
-delta_theta (int):
+- delta_theta (int):
  Incremento en grados para variar el ángulo de lanzamiento.
 \end_layout
 
 \begin_layout Standard
-b2_m (float):
+- b2_m (float):
  Coeficiente de arrastre dividido por la masa del proyectil (por defecto es 0,
  ignorando la resistencia del aire).
 \end_layout
 
-\begin_layout Standard
+\begin_layout Paragraph*
 Variables Iniciales
 \end_layout
 
@@ -440,6 +440,104 @@ La función utiliza un bucle while para iterar sobre diferentes ángulos de lanz
  El alcance horizontal máximo (xs[-1]) se almacena en el diccionario resultado con la clave correspondiente al ángulo en grados.
  Finalmente,
  se incrementa el ángulo en delta_theta grados para la siguiente iteración.
+\end_layout
+
+\begin_layout Standard
+Utilizamos esta función sin resistencia del aire,
+ graficamos el resultado,
+ es decir el ángulo contra el alcance horizontal correspondiente al mismo y dibujamos una línea vertical en 
+\begin_inset Formula $\theta=45$
+\end_inset
+
+.
+ Obteniendo así la figura 3.
+ 
+\begin_inset Float figure
+placement ph
+alignment right
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename alcance_horizontal_optimo.png
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Section
+Encontrando el Ángulo Óptimo con Fuerza de Arrastre
+\end_layout
+
+\begin_layout Standard
+Para encontrar el ángulo óptimo en este caso sencillamente utilizamos la misma estrategia pero esta vez con fuerza de arrastre.
+ Dibujamos líneas verticales tanto en 45 como en el ángulo óptimo para ver la diferencia.
+ El resultado es la figura 4.
+ Que nos muestra a la izquierda el ángulo vs el alcance horizontal para cada variación de 0.25 grados y a la derecha las trayectorias para 45 y 38.5 grados,
+ el cuál es el ángulo óptimo para una fuerza de arrastre de 
+\begin_inset Formula $\frac{b_{2}}{m}=0.00004$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+alignment center
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename alcance_horizontal_optimo_con_arrastre.png
+	scale 40
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename comparativo_45_y_38.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \end_body
