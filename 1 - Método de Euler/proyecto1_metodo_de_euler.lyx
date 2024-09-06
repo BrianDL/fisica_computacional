@@ -7,8 +7,8 @@
 \textclass article
 \use_default_options true
 \maintain_unincluded_children no
-\language american
-\language_package default
+\language spanish
+\language_package babel
 \inputencoding utf8
 \fontencoding auto
 \font_roman "default" "default"
@@ -33,6 +33,7 @@
 \float_placement class
 \float_alignment class
 \paperfontsize default
+\spacing single
 \use_hyperref false
 \papersize default
 \use_geometry false
@@ -48,6 +49,7 @@
 \use_package undertilde 1
 \cite_engine basic
 \cite_engine_type default
+\biblio_style plain
 \use_bibtopic false
 \use_indices false
 \paperorientation portrait
@@ -67,8 +69,8 @@
 \paragraph_indentation default
 \is_math_indent 0
 \math_numbering_side default
-\quotes_style english
-\dynamic_quotes 0
+\quotes_style plain
+\dynamic_quotes 1
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
@@ -98,142 +100,162 @@ Brian David Leiva - 2005 106 31 - fisica.cn28c@slmail.me
 En el siguiente documento presentamos una implementación del método de Euler para analizar el comportamiento de un proyectil lanzado con una velocidad inicial dada en un medio con fuerza de arrastre asociada.
 \end_layout
 
-\begin_layout Section
-Modelado del sistema
+\begin_layout Section*
+Introducción
 \end_layout
 
 \begin_layout Standard
+El método de Euler es una técnica numérica simple que nos ayuda a aproximar soluciones a problemas que involucran ecuaciones diferenciales.
+ Aunque no es el método más preciso,
+ es fácil de entender y aplicar,
+ lo que lo hace ideal para este tipo de simulaciones.
+\end_layout
+
+\begin_layout Standard
+En esta investigación,
+ implementamos el método de Euler para calcular la trayectoria de un objeto en caída libre,
+ considerando tanto la gravedad como la resistencia del aire.
+ Nuestro objetivo es mostrar cómo se puede usar este método para simular fenómenos físicos y evaluar su precisión y limitaciones.
+\end_layout
+
+\begin_layout Section*
+Antecedentes
+\end_layout
+
+\begin_layout Standard
+El método de Euler se basa en la idea de aproximar la solución de una ecuación diferencial mediante una serie de pasos discretos.
+ 
+\end_layout
+
+\begin_layout Standard
+En el contexto de la simulación de fenómenos físicos,
+ el método de Euler ha sido utilizado debido a su capacidad para proporcionar una primera aproximación rápida y sencilla.
+ En particular,
+ ha sido aplicado en la simulación de movimientos bajo la influencia de fuerzas constantes,
+ como la gravedad,
+ y en la modelación de sistemas dinámicos simples.
+\end_layout
+
+\begin_layout Section*
+Metodología
+\end_layout
+
+\begin_layout Standard
+Utilizamos un 
+\begin_inset CommandInset href
+LatexCommand href
+name "python notebook"
+target "https://github.com/BrianDL/fisica_computacional/blob/main/1 - Método de Euler/euler.ipynb"
+literal "true"
+
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "leiva_metodo_nodate"
+literal "false"
+
+\end_inset
+
+ en el cual programamos varias funciones que implementan el método de Euler.
+\end_layout
+
+\begin_layout Subsection*
 Utilizamos la función proyectil para modelar el sistema.
- esta función toma los parametros requeridos y les da los valores por defecto que se pidieron.
-\end_layout
-
-\begin_layout Paragraph*
-Parámetros de la Función
 \end_layout
 
 \begin_layout Standard
-La función `proyectil` toma los siguientes parámetros:
+Esta función toma los parámetros requeridos y les da los valores por defecto que se pidieron.
 \end_layout
 
-\begin_layout Standard
-- `b2_m` (float):
+\begin_layout Itemize
+b2_m (float):
  Coeficiente de arrastre dividido por la masa del proyectil.
 \end_layout
 
-\begin_layout Standard
-- `g` (float):
+\begin_layout Itemize
+g (float):
  Aceleración debida a la gravedad.
+ 
 \end_layout
 
-\begin_layout Standard
-- `v_0` (float):
+\begin_layout Itemize
+v_0 (float):
  Velocidad inicial del proyectil.
+ 
 \end_layout
 
-\begin_layout Standard
-- `theta` (float):
+\begin_layout Itemize
+theta (float):
  Ángulo de lanzamiento del proyectil.
+ 
 \end_layout
 
-\begin_layout Standard
-- `N` (int):
+\begin_layout Itemize
+N (int):
  Número máximo de iteraciones.
+ 
 \end_layout
 
-\begin_layout Standard
-- `delta_t` (float):
+\begin_layout Itemize
+delta_t (float):
  Tamaño del paso de tiempo para la simulación.
+ 
 \end_layout
 
-\begin_layout Standard
-- `stop_fn` (función):
+\begin_layout Itemize
+stop_fn (función):
  Función opcional para determinar cuándo detener la simulación.
 \end_layout
 
-\begin_layout Paragraph*
-Variables Iniciales
-\end_layout
-
 \begin_layout Standard
-Se inicializan las posiciones (`x`,
- `y`) y las componentes de la velocidad (`v_x`,
- `v_y`) del proyectil.
+Luego se inicializan las posiciones (x,
+ y) y las componentes de la velocidad (v_x,
+ v_y) del proyectil.
  Las velocidades iniciales se calculan a partir de la velocidad inicial y el ángulo de lanzamiento.
 \end_layout
 
-\begin_layout Paragraph*
-Iteración del Método de Euler
-\end_layout
-
 \begin_layout Standard
-La función utiliza un bucle `while` para iterar hasta que se cumpla la condición de parada definida por `stop_fn`.
+La función utiliza un bucle while para iterar hasta que se cumpla la condición de parada definida por stop_fn.
  En cada iteración,
  se realizan los siguientes pasos:
+ 
 \end_layout
 
-\begin_layout Standard
-1.
- **Cálculo de la Velocidad Actual**:
- Se calcula la magnitud de la velocidad a partir de sus componentes.
+\begin_layout Enumerate
+Se calcula la magnitud de la velocidad a partir de sus componentes.
+ 
 \end_layout
 
-\begin_layout Standard
-2.
- **Actualización de las Velocidades**:
- Se actualizan las componentes de la velocidad utilizando las ecuaciones del método de Euler,
+\begin_layout Enumerate
+Se actualizan las componentes de la velocidad utilizando las ecuaciones del método de Euler,
  que consideran la fuerza de arrastre y la gravedad.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Se actualizan las posiciones del proyectil.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Se almacenan las posiciones y velocidades en listas para su posterior análisis.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Se incrementa el contador de iteraciones.
 \end_layout
 
 \begin_layout Standard
-3.
- **Actualización de las Posiciones**:
- Se actualizan las posiciones del proyectil.
-\end_layout
-
-\begin_layout Standard
-4.
- **Almacenamiento de Resultados**:
- Se almacenan las posiciones y velocidades en listas para su posterior análisis.
-\end_layout
-
-\begin_layout Standard
-5.
- **Incremento del Contador de Iteraciones**:
- Se incrementa el contador de iteraciones.
-\end_layout
-
-\begin_layout Paragraph*
-Valores de retorno
-\end_layout
-
-\begin_layout Standard
-La función nos devuelve una tupla con cuatro elementos,
- las cuales son listas con los valores en 
-\begin_inset Formula $x$
-\end_inset
-
-,
- los valores en 
-\begin_inset Formula $y$
-\end_inset
-
-,
- y las componentes en 
-\begin_inset Formula $x$
-\end_inset
-
- y 
-\begin_inset Formula $y$
-\end_inset
-
- de la velocidad en cada momento.
+Finalmente la función nos devuelve una tupla con cuatro elementos,
+ las cuales son listas con los valores en x,
+ los valores en y,
+ y las componentes en x y y de la velocidad en cada momento.
  De esta manera,
- cada índice 
-\begin_inset Formula $i$
-\end_inset
-
- de cada una de las listas corresponde al valor de esa variable en el momento 
-\begin_inset Formula $\Delta t=i$
+ cada índice i de cada una de las listas corresponde al valor de esa variable en el momento 
+\begin_inset Formula $Δt=i$
 \end_inset
 
 .
@@ -249,183 +271,72 @@ La función nos devuelve una tupla con cuatro elementos,
 \begin_inset Formula $t=5$
 \end_inset
 
- esto nos facilita utilizar estos valores con el software de graficado (matplotlib).
+.
+ Esto nos facilita utilizar estos valores con el software de graficado (matplotlib).
 \end_layout
 
-\begin_layout Paragraph*
-Funciones Auxiliares
-\end_layout
-
-\begin_layout Standard
-La función `v` calcula la magnitud de la velocidad a partir de sus componentes.
- La función `es_x_maximo` permite detener la simulación cuando el proyectil alcanza su altura máxima,
- esta es una de las posibles funciones de detenido que utilizaremos más adelante para encontrar el alcance horizontal.
-\end_layout
-
-\begin_layout Section
-Cáculo de la trayectoria
+\begin_layout Subsection*
+Funciones auxiliares
 \end_layout
 
 \begin_layout Standard
-\begin_inset Float figure
-placement h
-alignment left
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename con_y_sin_resistencia.png
-	scale 60
-
-\end_inset
-
-
+La función v calcula la magnitud de la velocidad a partir de sus componentes,
+ mientras la función es_x_maximo permite detener la simulación cuando el proyectil alcanza su altura máxima.
+ Esta última es una de las posibles funciones de detenido que utilizaremos más adelante para encontrar el alcance horizontal.
 \end_layout
 
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
+\begin_layout Subsection*
+Cálculo de la trayectoria
 \end_layout
 
 \begin_layout Standard
-Para calcular la trayectoria utilizamos la función proyectil definida anteriormente,
- utilizamos 
-\begin_inset Formula $b_{2}/m=0$
-\end_inset
-
- para el caso sin resistencia del aire y el valor dado por defecto para el caso con resistencia.
+Para calcular la trayectoria utilizamos la función proyectil definida anteriormente.
+ Utilizamos b2_m=0 para el caso sin resistencia del aire y el valor dado por defecto para el caso con resistencia.
  La función proyectil nos devuelve una tupla con cuatro listas,
  de las cuales tomamos las dos primeras,
- es decir la lista de todas las posiciones en 
-\begin_inset Formula $x$
-\end_inset
-
- y la de las posiciones en 
-\begin_inset Formula $y$
-\end_inset
-
-.
+ es decir,
+ la lista de todas las posiciones en x y la de las posiciones en y.
 \end_layout
 
-\begin_layout Standard
-Las graficamos para obtener la figura 1 en la cual podemos observar que dos de las propiedades más sobresalientes son que la trayectoria con resistencia del aire deja de moverse por completo en la dirección 
-\begin_inset Formula $x$
-\end_inset
-
-,
- lo cual podemos explicar porque la resistencia del viento representa una fuerza constante en la dirección 
-\begin_inset Formula $-x$
-\end_inset
-
- y termina por llevar la velocidad a cero.
- Lo segundo es que a pesar de que no se detiene en la dirección 
-\begin_inset Formula $y$
-\end_inset
-
- si avanza mucho menos en la misma debido a que se establece en la una velocidad tal que la fuerza de arrastre es equivalente a la fuerza de gravedad.
- Velocidad que ya conocemos como velocidad terminal.
-\end_layout
-
-\begin_layout Section
-Cálculo del Alcance Horizontal
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-placement h
-alignment left
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-\begin_inset Graphics
-	filename alcance_horizontal.png
-	scale 60
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
+\begin_layout Subsection*
+Encontrando el alcance horizontal
 \end_layout
 
 \begin_layout Standard
 Para calcular el alcance horizontal utilizamos la función de detenido es_x_maximo en el parámetro stop_fn de la función proyectil.
- Lo que detendrá la simulación en el momento en que el valor de 
-\begin_inset Formula $y$
-\end_inset
-
- sea igual o menor a cero.
- Lo cual devolverá el último (y máximo) valor de 
-\begin_inset Formula $x$
-\end_inset
-
- en xs[-1].
- Para verificarlo,
- graficamos la trayectoria de un tiro de proyectil obteniendo la figura 2.
+ Esto detendrá la simulación en el momento en que el valor de y sea igual o menor a cero,
+ devolviendo el último (y máximo) valor de x en xs[-1].
 \end_layout
 
-\begin_layout Section
-Verificación del Ángulo inicial Óptimo sin Fuerza de Arrastre
+\begin_layout Subsection*
+Encontrando el ángulo óptimo para alcance horizontal máximo
 \end_layout
 
 \begin_layout Standard
-Para verificar el ángulo óptimo de 45 grados que se nos pide definimos la función angulos_a_alcance,
+Para verificar el ángulo óptimo de 45 grados,
+ definimos la función angulos_a_alcance,
  la cual devuelve un diccionario cuyas claves son los ángulos y sus valores son los alcances horizontales correspondientes.
-\end_layout
-
-\begin_layout Paragraph*
-Parámetros de la Función
 \end_layout
 
 \begin_layout Standard
 La función angulos_a_alcance toma los siguientes parámetros:
+ 
 \end_layout
 
-\begin_layout Standard
-- delta_theta (int):
+\begin_layout Itemize
+delta_theta (int):
  Incremento en grados para variar el ángulo de lanzamiento.
 \end_layout
 
-\begin_layout Standard
-- b2_m (float):
+\begin_layout Itemize
+b2_m (float):
  Coeficiente de arrastre dividido por la masa del proyectil (por defecto es 0,
  ignorando la resistencia del aire).
-\end_layout
-
-\begin_layout Paragraph*
-Variables Iniciales
 \end_layout
 
 \begin_layout Standard
 Se inicializa un diccionario resultado para almacenar el alcance horizontal máximo para cada ángulo.
  La variable grados se inicializa en 0 para comenzar desde un ángulo de 0 grados.
-\end_layout
-
-\begin_layout Paragraph*
-Iteración para Variar el Ángulo
 \end_layout
 
 \begin_layout Standard
@@ -443,18 +354,116 @@ La función utiliza un bucle while para iterar sobre diferentes ángulos de lanz
 \end_layout
 
 \begin_layout Standard
-Utilizamos esta función sin resistencia del aire,
- graficamos el resultado,
- es decir el ángulo contra el alcance horizontal correspondiente al mismo y dibujamos una línea vertical en 
-\begin_inset Formula $\theta=45$
+Para encontrar el ángulo óptimo en este caso,
+ utilizamos la misma estrategia pero esta vez con fuerza de arrastre.
+ Dibujamos líneas verticales tanto en 45 como en el ángulo óptimo para ver la diferencia.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
 \end_inset
 
-.
- Obteniendo así la figura 3.
+
+\end_layout
+
+\begin_layout Section*
+Resultados
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement h
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename con_y_sin_resistencia.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+Como se puede observar en la Figura 1,
+ las trayectorias obtenidas muestran que en el caso con resistencia del aire,
+ el proyectil deja de moverse por completo en la dirección x.
+ Esto se debe a que la resistencia del viento representa una fuerza constante en la dirección -x,
+ llevando la velocidad a cero.
+ Mientras en la dirección y,
+ aunque no se detiene,
+ avanza mucho menos debido a que se establece una velocidad tal que la fuerza de arrastre es equivalente a la fuerza de gravedad,
+ es decir la velocidad terminal.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Al utilizar la función de detenido es_x_maximo,
+ se obtiene el alcance horizontal máximo del proyectil.
+ La gráfica de la trayectoria (Figura 2) confirma que el valor de x en xs[-1] es el alcance máximo.
+\begin_inset Float figure
+placement h
+alignment document
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename alcance_horizontal.png
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage pagebreak
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+La función angulos_a_alcance muestra que el ángulo óptimo sin resistencia del aire es de 45 grados.
+ La gráfica del ángulo contra el alcance horizontal (Figura 3) nos confirma este resultado.
  
 \begin_inset Float figure
-placement ph
-alignment right
+placement h
+alignment document
 wide false
 sideways false
 status collapsed
@@ -465,7 +474,7 @@ status collapsed
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename alcance_horizontal_optimo.png
-	scale 60
+	scale 40
 
 \end_inset
 
@@ -479,29 +488,25 @@ status collapsed
 
 \end_inset
 
- 
-\end_layout
 
-\begin_layout Section
-Encontrando el Ángulo Óptimo con Fuerza de Arrastre
 \end_layout
 
 \begin_layout Standard
-Para encontrar el ángulo óptimo en este caso sencillamente utilizamos la misma estrategia pero esta vez con fuerza de arrastre.
- Dibujamos líneas verticales tanto en 45 como en el ángulo óptimo para ver la diferencia.
- El resultado es la figura 4.
- Que nos muestra a la izquierda el ángulo vs el alcance horizontal para cada variación de 0.25 grados y a la derecha las trayectorias para 45 y 38.5 grados,
- el cuál es el ángulo óptimo para una fuerza de arrastre de 
-\begin_inset Formula $\frac{b_{2}}{m}=0.00004$
+\begin_inset VSpace bigskip
 \end_inset
 
-.
+
+\end_layout
+
+\begin_layout Standard
+La figura 4 muestra que el ángulo óptimo con fuerza de arrastre es de 38.5 grados,
+ en contraste con los 45 grados sin resistencia del aire.
 \end_layout
 
 \begin_layout Standard
 \begin_inset Float figure
 placement h
-alignment center
+alignment document
 wide false
 sideways false
 status open
@@ -531,9 +536,73 @@ status open
 
 \end_layout
 
-\begin_layout Plain Layout
+\end_inset
+
 
 \end_layout
+
+\begin_layout Section*
+Discusión
+\end_layout
+
+\begin_layout Standard
+La resistencia del aire tiene un impacto significativo en la trayectoria del proyectil.
+ Observamos que la fuerza de arrastre en la dirección -x reduce la velocidad horizontal a cero,
+ mientras que en la dirección y se alcanza una velocidad terminal donde la fuerza de arrastre equilibra la gravedad.
+\end_layout
+
+\begin_layout Standard
+Mostramos que la función de detenido es_x_maximo es efectiva para determinar el alcance horizontal máximo.
+ Y pudimos realizar la verificación de que el ángulo óptimo de 45 grados sin resistencia del aire es consistente con la teoría.
+ 
+\end_layout
+
+\begin_layout Standard
+La resistencia del aire cambia el ángulo óptimo de lanzamiento a 38.5 grados.
+ Este resultado es importante para aplicaciones prácticas donde la resistencia del aire no puede ser ignorada.
+ La comparación de las trayectorias para 45 y 38.5 grados muestra claramente la diferencia en el alcance horizontal debido a la fuerza de arrastre.
+\end_layout
+
+\begin_layout Section*
+Conclusiones
+\end_layout
+
+\begin_layout Standard
+El estudio del tiro parabólico con y sin resistencia del aire nos ha permitido comprender mejor cómo las fuerzas externas afectan la trayectoria de un proyectil.
+ En ausencia de resistencia del aire,
+ el ángulo óptimo de lanzamiento para alcanzar la máxima distancia horizontal es de 45 grados,
+ lo cual es consistente con la teoría clásica del movimiento parabólico.
+ Sin embargo,
+ cuando se introduce la resistencia del aire,
+ el ángulo óptimo de lanzamiento se reduce significativamente.
+ En nuestro caso,
+ encontramos que el ángulo óptimo es de 38.5 grados para un coeficiente de arrastre específico.
+ Esto demuestra que la resistencia del aire no solo reduce la distancia horizontal alcanzada,
+ sino que también modifica el ángulo de lanzamiento necesario para maximizar dicha distancia.
+\end_layout
+
+\begin_layout Standard
+La metodología empleada,
+ basada en el método de Euler y funciones auxiliares para detener la simulación en puntos clave,
+ ha demostrado ser efectiva y precisa para modelar el comportamiento del proyectil bajo diferentes condiciones.
+ Las simulaciones y gráficas obtenidas validan la precisión de nuestro enfoque y proporcionan una herramienta útil para futuros estudios y aplicaciones prácticas.
+\end_layout
+
+\begin_layout Standard
+Además,
+ la comparación entre las trayectorias con y sin resistencia del aire resalta la importancia de considerar factores externos en el diseño y análisis de sistemas de lanzamiento.
+ En aplicaciones prácticas,
+ como el lanzamiento de proyectiles en deportes o en ingeniería militar,
+ es crucial tener en cuenta la resistencia del aire para optimizar el rendimiento y la precisión.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+btprint "btPrintAll"
+bibfiles "euler"
+options "plain"
+encoding "default"
 
 \end_inset
 
