@@ -88,6 +88,87 @@ Donde δt es el tamaño del paso de tiempo.
 Este algoritmo se aplicará iterativamente para calcular la trayectoria de Mercurio a lo largo del tiempo, permitiéndonos observar y medir la precesión del perihelio.
 
 ### Implementando una función de iteración
+
+Para implementar el método RK2 que hemos derivado, podemos crear una función en Python que realice las iteraciones. A continuación, se presenta un pseudocódigo que ilustra cómo podría ser esta función:
+
+```python
+import numpy as np
+
+def simular_orbita_mercurio(
+        x_inicial
+        , y_inicial
+        , vx_inicial
+        , vy_inicial
+        , tiempo_total
+        , delta_t
+        , alpha = 0.0008
+        ):
+    # Inicializar variables
+    x = x_inicial
+    y = y_inicial
+    vx = vx_inicial
+    vy = vy_inicial
+    t = 0  # Tiempo inicial
+
+    # Constantes
+    G = 6.67430e-11  # Constante gravitacional (m^3 kg^-1 s^-2)
+    M_s = 1.989e30   # Masa del Sol (kg)
+
+    # Listas para almacenar resultados
+    tiempos = [t]
+    posiciones = [(x, y)]
+    velocidades = [(vx, vy)]
+
+    # Bucle principal de la simulación
+    while t < tiempo_total:
+        # Calcular variables radiales
+        r = np.sqrt(x**2 + y**2)
+        v = np.sqrt(vx**2 + vy**2)
+        
+        # Calcular los valores intermedios (k1)
+        k1_x = delta_t * vx
+        k1_y = delta_t * vy
+        k1_vx = delta_t * (-G * M_s * x / r**3) * (1 + alpha / r**2)
+        k1_vy = delta_t * (-G * M_s * y / r**3) * (1 + alpha / r**2)
+
+        # Calcular los valores finales (k2)
+        x_mid = x + k1_x/2
+        y_mid = y + k1_y/2
+        vx_mid = vx + k1_vx/2
+        vy_mid = vy + k1_vy/2
+        r_mid = np.sqrt(x_mid**2 + y_mid**2)
+
+        k2_x = delta_t * vx_mid
+        k2_y = delta_t * vy_mid
+        k2_vx = delta_t * (-G * M_s * x_mid / r_mid**3) * (1 + alpha / r_mid**2)
+        k2_vy = delta_t * (-G * M_s * y_mid / r_mid**3) * (1 + alpha / r_mid**2)
+
+        # Actualizar los valores para el siguiente paso
+        x += k2_x
+        y += k2_y
+        vx += k2_vx
+        vy += k2_vy
+        t += delta_t
+
+        # Guardar los resultados en cada paso
+        tiempos.append(t)
+        posiciones.append((x, y))
+        velocidades.append((vx, vy))
+
+    return tiempos, posiciones, velocidades
+```
+
+### Encontrando la precesión para un α dado
+
+Para determinar la precesión del perihelio de Mercurio a partir de los resultados de nuestra simulación, comenzamos por identificar los puntos de perihelio en la órbita. Estos ocurren cuando Mercurio está más cerca del Sol, lo que corresponde a mínimos locales en la distancia radial r = √(x² + y²). En la práctica, buscamos puntos donde r(t) sea menor que sus valores adyacentes.
+
+Una vez identificados los perihelios, calculamos el ángulo entre dos puntos de perihelio consecutivos utilizando el producto escalar. Si (x₁, y₁) y (x₂, y₂) son dos perihelios consecutivos, el ángulo θ entre ellos se obtiene de cos(θ) = (x₁x₂ + y₁y₂) / (r₁r₂), donde r₁ y r₂ son las magnitudes de los vectores correspondientes.
+
+La precesión por órbita, Δθ, es la diferencia entre este ángulo y 2π radianes (una vuelta completa). Para expresar la precesión en unidades más convencionales, la convertimos a segundos de arco por siglo. Esto implica multiplicar Δθ por factores de conversión apropiados y por el número de órbitas en un siglo.
+
+El valor de α en nuestra simulación afecta directamente esta precesión. Ajustando α y comparando la precesión resultante con el valor observado de aproximadamente 43 segundos de arco por siglo, podemos calibrar nuestro modelo para que coincida con las observaciones reales del perihelio de Mercurio. Este proceso nos permite validar nuestra simulación y explorar cómo diferentes valores de α afectan la órbita de Mercurio.
+
+
 ## resultados
 ## discusión
 ## conclusiones
