@@ -1,6 +1,14 @@
 # Precesión del Perihelio de Mercurio con Métodos de Runge-Kutta
 ## Resumen
-## Introducción
+
+Este estudio investiga la precesión del perihelio de Mercurio utilizando métodos numéricos, específicamente el método de Runge-Kutta de segundo orden (RK2). Se desarrolla un modelo computacional que incorpora tanto la fuerza gravitacional del Sol como los efectos perturbadores de otros planetas, representados por un parámetro α. El trabajo comienza con una introducción a los métodos de Runge-Kutta y una descripción detallada de la órbita de Mercurio, incluyendo las ecuaciones que gobiernan su movimiento.
+
+La metodología empleada implica la aplicación del método RK2 a un sistema de ecuaciones diferenciales de primer orden derivadas de las ecuaciones de movimiento de Mercurio. Se implementa una función en Python, `simular_orbita_mercurio`, que simula la órbita del planeta con diversos parámetros iniciales. Esta simulación permite observar y medir la precesión del perihelio bajo diferentes condiciones.
+
+El estudio analiza cómo el parámetro α, que representa las correcciones relativistas y los efectos de otros cuerpos celestes, influye en la precesión del perihelio. Se desarrolla una función adicional, `calcular_precesion`, para cuantificar esta precesión basándose en los resultados de la simulación.
+
+Este enfoque computacional proporciona una herramienta valiosa para estudiar y visualizar el fenómeno de la precesión del perihelio de Mercurio, ofreciendo insights sobre los factores que influyen en este importante efecto astronómico y relativista.
+
 ### Métodos de Runge-Kutta
 
 Los métodos de Runge-Kutta son una familia de algoritmos numéricos iterativos utilizados para aproximar soluciones de ecuaciones diferenciales ordinarias (EDOs). Estos métodos son ampliamente utilizados en física computacional y otras disciplinas científicas.
@@ -88,75 +96,30 @@ Este algoritmo se aplicará iterativamente para calcular la trayectoria de Mercu
 
 ### Implementando una función de iteración
 
-Para implementar el método RK2 que hemos derivado, podemos crear una función en Python que realice las iteraciones. A continuación, se presenta un pseudocódigo que ilustra cómo podría ser esta función:
+Implementamos la función `simular_orbita_mercurio` en Python, la cual simula la órbita de Mercurio utilizando el método de Runge-Kutta de segundo orden (RK2). Esta función toma los siguientes parámetros:
 
-```python
-import numpy as np
+- `x_inicial` (float, opcional): Posición inicial en el eje x. Si no se proporciona, se calcula como (1+e)*a, donde e es la excentricidad y a es el semieje mayor de la órbita.
+- `y_inicial` (float, opcional): Posición inicial en el eje y. Por defecto es 0.
+- `vx_inicial` (float, opcional): Velocidad inicial en el eje x. Por defecto es 0.
+- `vy_inicial` (float, opcional): Velocidad inicial en el eje y. Si no se proporciona, se calcula utilizando la ecuación de la velocidad orbital.
+- `iteraciones` (int, opcional): Número de iteraciones para la simulación. Por defecto es 20000.
+- `delta_t` (float, opcional): Tamaño del paso de tiempo para la simulación. Por defecto es 0.0001.
+- `alpha` (float, opcional): Parámetro que representa la corrección relativista. Por defecto es 0.0008.
 
-def simular_orbita_mercurio(
-        x_inicial
-        , y_inicial
-        , vx_inicial
-        , vy_inicial
-        , tiempo_total
-        , delta_t
-        , alfa = 0.0008
-        ):
-    # Inicializar variables
-    x = x_inicial
-    y = y_inicial
-    vx = vx_inicial
-    vy = vy_inicial
-    t = 0  # Tiempo inicial
+La función inicializa las variables necesarias, incluyendo las constantes como GM_s (producto de la constante gravitacional y la masa del Sol), el semieje mayor (a), y la excentricidad (e) de la órbita de Mercurio.
 
-    # Constantes
-    G = 6.67430e-11  # Constante gravitacional (m^3 kg^-1 s^-2)
-    M_s = 1.989e30   # Masa del Sol (kg)
+Luego, realiza la simulación utilizando el método RK2, calculando en cada iteración:
+1. Las variables radiales (r y v).
+2. Los valores intermedios (k1) para posición y velocidad.
+3. Los valores finales (k2) para posición y velocidad.
+4. Actualiza los valores de posición, velocidad y tiempo para el siguiente paso.
 
-    # Listas para almacenar resultados
-    tiempos = [t]
-    posiciones = [(x, y)]
-    velocidades = [(vx, vy)]
+La función devuelve tres listas:
+1. `tiempos`: Una lista con los tiempos de cada paso de la simulación.
+2. `posiciones`: Una lista de tuplas (x, y) representando las posiciones en cada paso.
+3. `velocidades`: Una lista de tuplas (vx, vy) representando las velocidades en cada paso.
 
-    # Bucle principal de la simulación
-    while t < tiempo_total:
-        # Calcular variables radiales
-        r = np.sqrt(x**2 + y**2)
-        v = np.sqrt(vx**2 + vy**2)
-        
-        # Calcular los valores intermedios (k1)
-        k1_x = delta_t * vx
-        k1_y = delta_t * vy
-        k1_vx = delta_t * (-G * M_s * x / r**3) * (1 + alfa / r**2)
-        k1_vy = delta_t * (-G * M_s * y / r**3) * (1 + alfa / r**2)
-
-        # Calcular los valores finales (k2)
-        x_mid = x + k1_x/2
-        y_mid = y + k1_y/2
-        vx_mid = vx + k1_vx/2
-        vy_mid = vy + k1_vy/2
-        r_mid = np.sqrt(x_mid**2 + y_mid**2)
-
-        k2_x = delta_t * vx_mid
-        k2_y = delta_t * vy_mid
-        k2_vx = delta_t * (-G * M_s * x_mid / r_mid**3) * (1 + alfa / r_mid**2)
-        k2_vy = delta_t * (-G * M_s * y_mid / r_mid**3) * (1 + alfa / r_mid**2)
-
-        # Actualizar los valores para el siguiente paso
-        x += k2_x
-        y += k2_y
-        vx += k2_vx
-        vy += k2_vy
-        t += delta_t
-
-        # Guardar los resultados en cada paso
-        tiempos.append(t)
-        posiciones.append((x, y))
-        velocidades.append((vx, vy))
-
-    return tiempos, posiciones, velocidades
-```
-
+Esta implementación nos permite simular la órbita de Mercurio con diferentes parámetros iniciales y observar cómo estos afectan la precesión del perihelio.
 ### Encontrando la precesión para un α dado
 
 Para analizar la precesión del perihelio de Mercurio, graficamos la relación entre el parámetro alfa y el ángulo de la posición con respecto al eje x en el perihelio. Esto nos permite visualizar cómo el parámetro alfa afecta a la precesión de la órbita.

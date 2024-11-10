@@ -1,0 +1,134 @@
+\documentclass[twocolumn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{float}
+
+\title{Simulación de la Precesión del Perihelio de Mercurio}
+\author{[Your Name]}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Este estudio investiga la precesión del perihelio de Mercurio utilizando métodos numéricos, específicamente el método de Runge-Kutta de segundo orden (RK2). Se desarrolla un modelo computacional que incorpora tanto la fuerza gravitacional del Sol como los efectos perturbadores de otros planetas, representados por un parámetro $\alpha$. El trabajo comienza con una introducción a los métodos de Runge-Kutta y una descripción detallada de la órbita de Mercurio, incluyendo las ecuaciones que gobiernan su movimiento.
+\end{abstract}
+
+\section{Introducción}
+[Texto de introducción aquí]
+
+\section{Método}
+
+Para aplicar el método RK2, necesitamos convertir estas ecuaciones de segundo orden en un sistema de ecuaciones de primer orden. Definimos las siguientes variables:
+
+\begin{itemize}
+\item $u = r$
+\item $v = \frac{dr}{dt}$
+\item $w = \frac{d\theta}{dt}$
+\end{itemize}
+
+Ahora, podemos reescribir nuestras ecuaciones como un sistema de primer orden:
+
+\begin{enumerate}
+\item $\frac{du}{dt} = v$
+\item $\frac{dv}{dt} = u w^2 - G M_s \left(\frac{1}{u^2}\right) \left(1 + \frac{\alpha}{u^2}\right)$
+\item $\frac{dw}{dt} = -2 \frac{v w}{u}$
+\end{enumerate}
+
+Este sistema de ecuaciones es el que utilizaremos con el método RK2. Para cada paso de tiempo, aplicaremos el método a estas tres ecuaciones simultáneamente.
+
+El algoritmo RK2 para este sistema se puede expresar de la siguiente manera:
+
+\begin{enumerate}
+\item Calcular los valores intermedios:
+   \begin{align*}
+   k1_u &= \delta t \cdot v_n \
+   k1_v &= \delta t \cdot \left(u_n w_n^2 - G M_s \left(\frac{1}{u_n^2}\right) \left(1 + \frac{\alpha}{u_n^2}\right)\right) \
+   k1_w &= \delta t \cdot \left(-2 \frac{v_n w_n}{u_n}\right)
+   \end{align*}
+
+\item Calcular los valores finales:
+   \begin{align*}
+   k2_u &= \delta t \cdot \left(v_n + \frac{k1_v}{2}\right) \
+   k2_v &= \delta t \cdot \left(\left(u_n + \frac{k1_u}{2}\right) \left(w_n + \frac{k1_w}{2}\right)^2 - G M_s \left(\frac{1}{(u_n + \frac{k1_u}{2})^2}\right) \left(1 + \frac{\alpha}{(u_n + \frac{k1_u}{2})^2}\right)\right) \
+   k2_w &= \delta t \cdot \left(-2 \frac{(v_n + \frac{k1_v}{2})(w_n + \frac{k1_w}{2})}{u_n + \frac{k1_u}{2}}\right)
+   \end{align*}
+
+\item Actualizar los valores para el siguiente paso:
+   \begin{align*}
+   u_{n+1} &= u_n + k2_u \
+   v_{n+1} &= v_n + k2_v \
+   w_{n+1} &= w_n + k2_w
+   \end{align*}
+\end{enumerate}
+
+Donde $\delta t$ es el tamaño del paso de tiempo.
+
+\subsection{Implementando una función de iteración}
+
+Implementamos la función \texttt{simular\_orbita\_mercurio} en Python, la cual simula la órbita de Mercurio utilizando el método de Runge-Kutta de segundo orden (RK2). Esta función toma varios parámetros, incluyendo posiciones y velocidades iniciales, número de iteraciones, tamaño del paso de tiempo, y el parámetro $\alpha$ que representa la corrección relativista.
+
+\subsection{Encontrando la precesión para un $\alpha$ dado}
+
+Para analizar la precesión del perihelio de Mercurio, graficamos la relación entre el parámetro $\alpha$ y el ángulo de la posición con respecto al eje x en el perihelio. Implementamos una función \texttt{calcular\_precesion} para determinar la precesión del perihelio basados en los resultados de una simulación.
+
+\subsection{Extrapolando el valor de la Precesión}
+
+Utilizamos la función \texttt{calcular\_precesion} para simular la órbita de Mercurio para diferentes valores de $\alpha$, y luego encontrar la pendiente de la recta que relaciona el parámetro $\alpha$ con la precesión, para extrapolar el valor de la precesión cuando $\alpha = 1.1 \times 10^{-8}$.
+
+\section{Resultados}
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\columnwidth]{./figures/orbita.png}
+\caption{Órbita simulada de Mercurio}
+\label{fig:orbita}
+\end{figure}
+
+La Figura \ref{fig:orbita} muestra la órbita simulada de Mercurio utilizando nuestro método de Runge-Kutta de segundo orden. Como se puede observar, la órbita presenta una forma elíptica característica, con el Sol ubicado en uno de los focos de la elipse.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.9\columnwidth]{./figures/angulo_vs_tiempo.png}
+\caption{Ángulo vs. Tiempo para la órbita de Mercurio}
+\label{fig:angulo_vs_tiempo}
+\end{figure}
+
+En la Figura \ref{fig:angulo_vs_tiempo} podemos observar la relación lineal entre el ángulo y el tiempo, lo que nos permite reconocer la precesión del ángulo como la razón de cambio del ángulo con respecto al tiempo, es decir la pendiente de la recta trazada por el ángulo.
+
+Finalmente, la Tabla \ref{tab:precesion} muestra la precesión calculada para los valores de $\alpha$ requeridos (0.0008, 0.001, 0.002, 0.004) basados en los cuales podemos encontrar la pendiente de 10848.00 para la recta que relaciona $\alpha$ con la precesión. Por lo que para $\alpha = 1.1 \times 10^{-8}$ observado tendríamos una precesión de 42.96 segundos de arco por siglo.
+
+\begin{table}[H]
+\centering
+\caption{Precesión calculada para diferentes valores de $\alpha$}
+\label{tab:precesion}
+\begin{tabular}{@{}cc@{}}
+\toprule
+$\alpha$ & Precesión (segundos de arco por siglo) \
+\midrule
+0.0008 & [8.63] \
+0.001 & [10.80] \
+0.002 & [22.14] \
+0.004 & [46.41] \
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Discusión}
+
+Notemos que este valor de 42.96 segundos por siglo es lo que se obtiene luego de convertir la precesión devuelta por nuestro código en grados por año. Los detalles se pueden ver en el notebook, donde la conversión es explícita.
+
+El cálculo de la pendiente que relaciona la precesión con el parámetro $\alpha$ se hizo tomando en cuenta los dos primeros puntos de la lista, dado que es una relación lineal, utilizar métodos más avanzados no nos mostraba ninguna mejora en el valor de la precesión. Peor aún, dado que al aumentar $\alpha$, la órbita se aleja cada vez más de los valores observados, los puntos con $\alpha = 0.002, 0.004$ tienden a exagerar más la precesión, como se puede observar al comparar la línea de tendencia lineal en la figura 3 con los valores de la simulación.
+
+\section{Conclusiones}
+
+Fuimos capaces de implementar la función \texttt{simular\_orbita\_mercurio} y verificar el correcto funcionamiento de la simulación. Utilizando esta función pudimos encontrar la relación entre el parámetro $\alpha$ de corrección relativista y la precesión de la órbita. Verificando así nuestra implementación del algoritmo RK2.
+
+\bibliography{references}
+\bibliographystyle{plain}
+
+\end{document}
