@@ -9,6 +9,8 @@ El estudio analiza cómo el parámetro α, que representa las correcciones relat
 
 Este enfoque computacional proporciona una herramienta valiosa para estudiar y visualizar el fenómeno de la precesión del perihelio de Mercurio, ofreciendo insights sobre los factores que influyen en este importante efecto astronómico y relativista.
 
+## Introducción
+
 ### Métodos de Runge-Kutta
 
 Los métodos de Runge-Kutta son una familia de algoritmos numéricos iterativos utilizados para aproximar soluciones de ecuaciones diferenciales ordinarias (EDOs). Estos métodos son ampliamente utilizados en física computacional y otras disciplinas científicas.
