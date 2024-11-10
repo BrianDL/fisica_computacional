@@ -101,7 +101,7 @@ def simular_orbita_mercurio(
         , vy_inicial
         , tiempo_total
         , delta_t
-        , alpha = 0.0008
+        , alfa = 0.0008
         ):
     # Inicializar variables
     x = x_inicial
@@ -128,8 +128,8 @@ def simular_orbita_mercurio(
         # Calcular los valores intermedios (k1)
         k1_x = delta_t * vx
         k1_y = delta_t * vy
-        k1_vx = delta_t * (-G * M_s * x / r**3) * (1 + alpha / r**2)
-        k1_vy = delta_t * (-G * M_s * y / r**3) * (1 + alpha / r**2)
+        k1_vx = delta_t * (-G * M_s * x / r**3) * (1 + alfa / r**2)
+        k1_vy = delta_t * (-G * M_s * y / r**3) * (1 + alfa / r**2)
 
         # Calcular los valores finales (k2)
         x_mid = x + k1_x/2
@@ -140,8 +140,8 @@ def simular_orbita_mercurio(
 
         k2_x = delta_t * vx_mid
         k2_y = delta_t * vy_mid
-        k2_vx = delta_t * (-G * M_s * x_mid / r_mid**3) * (1 + alpha / r_mid**2)
-        k2_vy = delta_t * (-G * M_s * y_mid / r_mid**3) * (1 + alpha / r_mid**2)
+        k2_vx = delta_t * (-G * M_s * x_mid / r_mid**3) * (1 + alfa / r_mid**2)
+        k2_vy = delta_t * (-G * M_s * y_mid / r_mid**3) * (1 + alfa / r_mid**2)
 
         # Actualizar los valores para el siguiente paso
         x += k2_x
@@ -160,16 +160,32 @@ def simular_orbita_mercurio(
 
 ### Encontrando la precesión para un α dado
 
-Para determinar la precesión del perihelio de Mercurio a partir de los resultados de nuestra simulación, comenzamos por identificar los puntos de perihelio en la órbita. Estos ocurren cuando Mercurio está más cerca del Sol, lo que corresponde a mínimos locales en la distancia radial r = √(x² + y²). En la práctica, buscamos puntos donde r(t) sea menor que sus valores adyacentes.
+Para analizar la precesión del perihelio de Mercurio, graficamos la relación entre el parámetro alfa y el ángulo de la posición con respecto al eje x en el perihelio. Esto nos permite visualizar cómo el parámetro alfa afecta a la precesión de la órbita.
 
-Una vez identificados los perihelios, calculamos el ángulo entre dos puntos de perihelio consecutivos utilizando el producto escalar. Si (x₁, y₁) y (x₂, y₂) son dos perihelios consecutivos, el ángulo θ entre ellos se obtiene de cos(θ) = (x₁x₂ + y₁y₂) / (r₁r₂), donde r₁ y r₂ son las magnitudes de los vectores correspondientes.
+Luego implementamos una función `calcular_precesion` para determinar la precesión del perihelio basados en los resultados de una simulación. Esta función realiza los siguientes pasos:
 
-La precesión por órbita, Δθ, es la diferencia entre este ángulo y 2π radianes (una vuelta completa). Para expresar la precesión en unidades más convencionales, la convertimos a segundos de arco por siglo. Esto implica multiplicar Δθ por factores de conversión apropiados y por el número de órbitas en un siglo.
+1. Identifica los puntos de perihelio en la órbita simulada. Estos son los puntos donde la distancia al Sol es mínima en cada revolución. Utilizamos dos criterios para identificar las mínimos:
+- Son aquellos puntos que son menores que sus dos vecinos
+- Son aquellos puntos donde la razón de cambio de la distancia radial se desvanece.
+\frac{dr}{dt} = \frac{xv^x + yv^y}{r} = 0
 
-El valor de α en nuestra simulación afecta directamente esta precesión. Ajustando α y comparando la precesión resultante con el valor observado de aproximadamente 43 segundos de arco por siglo, podemos calibrar nuestro modelo para que coincida con las observaciones reales del perihelio de Mercurio. Este proceso nos permite validar nuestra simulación y explorar cómo diferentes valores de α afectan la órbita de Mercurio.
+2. Para cada perihelio se calcula el ángulo de la posición con respecto al eje x. La razón de cambio de este ángulo con respecto al tiempo es la precesión buscada.
 
+### Extrapolando el valor de la Precesión para un Valor de \alpha Difícil de simular
+
+Una vez que tenemos la función calcular_precesion podemos utilizarla para simular la órbita de Mercurio para diferentes valores de \alpha, y luego encontrar la pendiente de la recta que relaciona el parámetro alfa con la precesión, para luego extrapolar el valor el valor de la precesión cuando \alpha = 1.1E-8, el cual es difícil de simular dado que tomaría mucho tiempo observar la precesión.
 
 ## resultados
+![Órbita simulada de Mercurio](./figures/orbita.png)
+
+La figura anterior muestra la órbita simulada de Mercurio utilizando nuestro método de Runge-Kutta de segundo orden. Como se puede observar, la órbita presenta una forma elíptica característica, con el Sol ubicado en uno de los focos de la elipse.
+
+![Ángulo vs. Tiempo para la órbita de Mercurio](./figures/angulo_vs_tiempo.png)
+
+En la figura anterior podemos observar la relación lineal entre el ángulo y el tiempo, lo que nos permite reconocer la precesión del ángulo como la razón de cambio del ángulo con respecto al tiempo, es decir la pendiente de la recta trazada por el ángulo.
+
+Finalmente, la tabla1 muestra la precesión calculada para los valores de alfa requeridos (0.0008, 0.001, 0.002, 0.004) basados en los cuales podemos encontrar la pendiente de 10848.00 para la recta que relaciona alfa con la precesión. Por lo que para \alpha = 1.1E-8 observado tendríamos una precesión de 42.96 segundos de arco por siglo.
+
 ## discusión
 ## conclusiones
 Fuimos capaces de calcular el perihelio de Mercurio para 
