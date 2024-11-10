@@ -3,7 +3,6 @@
 pkgs.mkShell {
   buildInputs = with pkgs; [
     python3
-    # python3Packages.venv
     python3Packages.pip
   ];
 
