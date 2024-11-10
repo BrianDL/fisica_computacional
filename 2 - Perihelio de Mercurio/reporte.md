@@ -1,6 +1,6 @@
 # Precesión del Perihelio de Mercurio con Métodos de Runge-Kutta
-## resumen
-## introducción
+## Resumen
+## Introducción
 ### Métodos de Runge-Kutta
 
 Los métodos de Runge-Kutta son una familia de algoritmos numéricos iterativos utilizados para aproximar soluciones de ecuaciones diferenciales ordinarias (EDOs). Estos métodos son ampliamente utilizados en física computacional y otras disciplinas científicas.
@@ -37,8 +37,7 @@ Donde:
 - r es la distancia entre el centro del Sol y el centro de Mercurio
 - α es un parámetro que representa las correcciones debidas a los efectos de otros planetas.
 
-## antecedentes
-## metodología
+## Metodología
 ### Aplicando los métodos de Runge-Kutta a la órbita de Mercurio
 
 Para aplicar el método de Runge-Kutta de segundo orden (RK2) a la órbita de Mercurio, necesitamos primero expresar las ecuaciones de movimiento en un sistema de ecuaciones diferenciales de primer orden.
@@ -186,7 +185,13 @@ En la figura anterior podemos observar la relación lineal entre el ángulo y el
 
 Finalmente, la tabla1 muestra la precesión calculada para los valores de alfa requeridos (0.0008, 0.001, 0.002, 0.004) basados en los cuales podemos encontrar la pendiente de 10848.00 para la recta que relaciona alfa con la precesión. Por lo que para \alpha = 1.1E-8 observado tendríamos una precesión de 42.96 segundos de arco por siglo.
 
-## discusión
-## conclusiones
-Fuimos capaces de calcular el perihelio de Mercurio para 
+## Discusión
+Notemos que este valor de 42.96 segundos por siglo es lo que se obtiene luego de convertir la precesión devuelta por nuestro código en grados por año. Los detalles se pueden ver en el notebook, donde la conversión es explícita.
+
+El cálculo de la pendiente que relaciona la precesión con el parámetro alfa se hizo tomando en cuenta los dos primeros puntos de la lista, dado que es una relación lineal, utilizar métodos más avanzados no nos mostraba ninguna mejora en el valor de la precesión, peor aún, dado que al aumentar alfa, la órbita se aleja cada vez más de los valores observados, los puntos con \alpha = 0.002, 0.004 tienden a exagerar más la precesión, como se puede observar al comparar la línea de tendencia lineal en la figura3 con los valores de la simulación.
+
+
+## Conclusiones
+Fuimos capaces de implementar la función simular_orbita_mercurio y verificar el correcto funcionamiento de la simulación. Utilizando esta función pudimos encontrar la relación entre el parámetro alfa de correción relativista y la precesión de la órbita. Verificando así nuestra implementación del algoritmo RK2.
+
 ## bibliografía 
