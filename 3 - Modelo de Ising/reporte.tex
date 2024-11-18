@@ -37,6 +37,16 @@ El Modelo de Ising es particularmente importante porque, a pesar de su simplicid
 
 \section{Metodología}
 
+Para simular el Modelo de Ising en dos dimensiones, emplearemos una representación matricial implementada con la biblioteca NumPy de Python. Nuestro enfoque se basa en la creación de una red cuadrada de longitud L, representada mediante un arreglo NumPy de forma L×L. Esta estructura bidimensional nos permite modelar de manera eficiente la disposición espacial de los spines en el sistema.
+
+En esta representación, cada elemento del arreglo corresponde a un spin individual. Los valores de estos elementos se limitan a +1 o -1, simbolizando spines orientados hacia arriba o hacia abajo, respectivamente. Esta dicotomía refleja la naturaleza binaria del Modelo de Ising, capturando la esencia de los estados magnéticos en un material ferromagnético.
+
+La elección de esta estructura matricial no es arbitraria. La forma del arreglo nos brinda una ventaja significativa al facilitar el acceso a los vecinos más cercanos de cada spin. Esta característica es fundamental para nuestro estudio, ya que las interacciones entre spines adyacentes son el núcleo del comportamiento del sistema Ising. La capacidad de calcular rápidamente estas interacciones locales es crucial para implementar eficientemente el algoritmo de Metrópolis y simular con precisión la evolución del sistema.
+
+Esta representación matricial nos proporciona una estructura de datos no solo eficiente, sino también intuitiva y fácil de manipular. Nos permite implementar el algoritmo de Metrópolis de manera directa, facilitando la simulación de la dinámica del sistema Ising a lo largo del tiempo y bajo diferentes condiciones. Con esta base, podemos proceder a explorar cómo el sistema responde a variaciones en la temperatura, el campo magnético externo, y otros parámetros relevantes del modelo.
+
+Esta representación nos proporciona una estructura de datos eficiente y fácil de manipular para implementar el algoritmo de Metrópolis y simular la evolución del sistema Ising.
+
 \section{Resultados}
 
 \section{Discusión}
