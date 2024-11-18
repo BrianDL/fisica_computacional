@@ -35,6 +35,24 @@ donde $s_i$ es el valor del spin en el sitio $i$, $J$ es la constante de acoplam
 
 El Modelo de Ising es particularmente importante porque, a pesar de su simplicidad, exhibe un comportamiento de transición de fase, mostrando ferromagnetismo por debajo de una temperatura crítica en dos o más dimensiones.
 
+\subsection*{El Algoritmo de Metrópolis}
+
+El algoritmo de Metrópolis es una técnica de muestreo de Monte Carlo ampliamente utilizada en física estadística para simular sistemas complejos como el Modelo de Ising \cite{algorithmarchive}. Este método permite explorar eficientemente el espacio de configuraciones del sistema, especialmente en situaciones donde el cálculo directo de las propiedades termodinámicas es computacionalmente prohibitivo.
+
+El algoritmo funciona de la siguiente manera:
+
+\begin{enumerate}
+    \item Se inicia con una configuración aleatoria del sistema.
+    \item Se propone un cambio aleatorio en la configuración (por ejemplo, voltear un spin).
+    \item Se calcula el cambio de energía $\Delta E$ asociado con este cambio.
+    \item Si $\Delta E \leq 0$, se acepta el cambio.
+    \item Si $\Delta E > 0$, se acepta el cambio con una probabilidad $e^{-\beta \Delta E}$, donde $\beta = 1/(k_B T)$, $k_B$ es la constante de Boltzmann y $T$ es la temperatura.
+    \item Se repiten los pasos 2-5 muchas veces para alcanzar el equilibrio térmico.
+\end{enumerate}
+
+Este proceso permite al sistema evolucionar hacia el equilibrio térmico, muestreando configuraciones de acuerdo con la distribución de Boltzmann. Es particularmente eficaz para el Modelo de Ising, ya que permite simular el comportamiento del sistema a diferentes temperaturas y estudiar fenómenos como la transición de fase ferromagnética.
+
+
 \section{Metodología}
 
 Para simular el Modelo de Ising en dos dimensiones, emplearemos una representación matricial implementada con la biblioteca NumPy de Python. Nuestro enfoque se basa en la creación de una red cuadrada de longitud L, representada mediante un arreglo NumPy de forma L×L. Esta estructura bidimensional nos permite modelar de manera eficiente la disposición espacial de los spines en el sistema.
