@@ -81,7 +81,10 @@ cython_debug/
 .Trashes
 ehthumbs.db
 Thumbs.db
-reporte.aux
-reporte.log
-2 - Perihelio de Mercurio/reporte.out
-2 - Perihelio de Mercurio/reporte.pdf
+
+*.out
+*.pdf
+*.log
+*.aux
+*.bbl
+*.blg

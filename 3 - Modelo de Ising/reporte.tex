@@ -1,0 +1,49 @@
+\documentclass[twocolumn]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish]{babel}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{hyperref}
+% \usepackage{natbib}
+
+\title{Modelo de Ising con el Algoritmo de Metrópolis}
+\author{Tu Nombre}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+\end{abstract}
+
+\section{Introducción}
+
+\section{Marco Teórico}
+\subsection*{El Modelo de Ising}
+
+El Modelo de Ising es un modelo matemático de ferromagnetismo en física estadística. Propuesto por Wilhelm Lenz en 1920 y nombrado después de su estudiante Ernst Ising, este modelo es uno de los más simples que muestra una transición de fase \cite{isingwiki}.
+
+En su forma más básica, el modelo consiste en spines discretos que pueden estar en uno de dos estados (+1 o -1) y que están dispuestos en una red, generalmente una red cuadrada en dos dimensiones. Cada spin interactúa con sus vecinos más cercanos. La energía de un estado particular del sistema está dada por:
+
+\begin{equation}
+    E = -J \sum_{\langle i,j \rangle} s_i s_j - H \sum_i s_i
+\end{equation}
+
+donde $s_i$ es el valor del spin en el sitio $i$, $J$ es la constante de acoplamiento entre spines vecinos, $H$ es el campo magnético externo, y la primera suma se realiza sobre todos los pares de spines vecinos más cercanos.
+
+El Modelo de Ising es particularmente importante porque, a pesar de su simplicidad, exhibe un comportamiento de transición de fase, mostrando ferromagnetismo por debajo de una temperatura crítica en dos o más dimensiones.
+
+\section{Metodología}
+
+\section{Resultados}
+
+\section{Discusión}
+
+\section{Conclusiones}
+
+\bibliographystyle{plain}
+\bibliography{referencias}
+
+\end{document}
