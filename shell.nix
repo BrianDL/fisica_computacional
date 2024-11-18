@@ -1,9 +1,23 @@
 { pkgs ? import <nixpkgs> {} }:
+let
+  compile-latex = pkgs.writeShellScriptBin "compile-latex" ''
+    pdflatex -interaction=nonstopmode reporte.tex
+    bibtex reporte
+    # pdflatex -interaction=nonstopmode reporte.tex
+    pdflatex -interaction=nonstopmode reporte.tex
+  '';
 
-pkgs.mkShell {
+  watch-latex = pkgs.writeShellScriptBin "watch-latex" ''
+    echo "Watching reporte.tex for changes..."
+    ${pkgs.entr}/bin/entr -s 'compile-latex' <<< reporte.tex
+  '';
+in pkgs.mkShell {
   buildInputs = with pkgs; [
     python3
     python3Packages.pip
+    entr
+    compile-latex
+    watch-latex
   ];
 
   shellHook = ''
