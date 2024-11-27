@@ -35,6 +35,26 @@ donde $s_i$ es el valor del spin en el sitio $i$, $J$ es la constante de acoplam
 
 El Modelo de Ising es particularmente importante porque, a pesar de su simplicidad, exhibe un comportamiento de transición de fase, mostrando ferromagnetismo por debajo de una temperatura crítica en dos o más dimensiones.
 
+\subsection*{Cálculo del Calor Específico}
+
+El calor específico por spin, C, se calcula utilizando las fluctuaciones en la energía del sistema. La fórmula para el calor específico es \cite{chang_fisica_computacional}:
+
+\begin{equation}
+    C = \frac{\beta}{T} (\langle E^2 \rangle - \langle E \rangle^2)
+\end{equation}
+
+donde $\beta = 1/(k_B T)$ es la temperatura inversa, $\langle E \rangle$ es el promedio de la energía, y $\langle E^2 \rangle$ es el promedio del cuadrado de la energía. 
+
+\subsection*{Cálculo de la Susceptibilidad Magnética}
+
+De manera similar, la susceptibilidad magnética $\chi$ se calcula utilizando las fluctuaciones en la magnetización del sistema. La fórmula para la susceptibilidad magnética es \cite{chang_fisica_computacional}:
+
+\begin{equation}
+    \chi = \beta (\langle M^2 \rangle - \langle M \rangle^2)
+\end{equation}
+
+donde $\langle M \rangle$ es el promedio de la magnetización, y $\langle M^2 \rangle$ es el promedio del cuadrado de la magnetización. La magnetización $M$ se define como la suma de todos los spines en el sistema: $M = \sum_i s_i$.
+
 \subsection*{El Algoritmo de Metrópolis}
 
 El algoritmo de Metrópolis es una técnica de muestreo de Monte Carlo ampliamente utilizada en física estadística para simular sistemas complejos como el Modelo de Ising \cite{algorithmarchive}. Este método permite explorar eficientemente el espacio de configuraciones del sistema, especialmente en situaciones donde el cálculo directo de las propiedades termodinámicas es computacionalmente prohibitivo.
@@ -64,6 +84,8 @@ La elección de esta estructura matricial no es arbitraria. La forma del arreglo
 Esta representación matricial nos proporciona una estructura de datos no solo eficiente, sino también intuitiva y fácil de manipular. Nos permite implementar el algoritmo de Metrópolis de manera directa, facilitando la simulación de la dinámica del sistema Ising a lo largo del tiempo y bajo diferentes condiciones. Con esta base, podemos proceder a explorar cómo el sistema responde a variaciones en la temperatura, el campo magnético externo, y otros parámetros relevantes del modelo.
 
 Esta representación nos proporciona una estructura de datos eficiente y fácil de manipular para implementar el algoritmo de Metrópolis y simular la evolución del sistema Ising.
+
+
 
 \section{Resultados}
 
