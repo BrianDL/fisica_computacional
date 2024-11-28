@@ -88,3 +88,4 @@ Thumbs.db
 *.aux
 *.bbl
 *.blg
+*.pickle
