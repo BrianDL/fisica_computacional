@@ -25,7 +25,7 @@
 
 El Modelo de Ising es un modelo matemático de ferromagnetismo en física estadística. Propuesto por Wilhelm Lenz en 1920 y nombrado después de su estudiante Ernst Ising, este modelo es uno de los más simples que muestra una transición de fase \cite{isingwiki}.
 
-En su forma más básica, el modelo consiste en spines discretos que pueden estar en uno de dos estados (+1 o -1) y que están dispuestos en una red, generalmente una red cuadrada en dos dimensiones. Cada spin interactúa con sus vecinos más cercanos. La energía de un estado particular del sistema está dada por:
+El modelo consiste en spines discretos que pueden estar en uno de dos estados (+1 o -1) y que están dispuestos en una red, generalmente una red cuadrada en dos dimensiones. Cada spin interactúa con sus vecinos más cercanos. La energía de un estado particular del sistema está dada por:
 
 \begin{equation}
     E = -J \sum_{\langle i,j \rangle} s_i s_j - H \sum_i s_i
@@ -70,20 +70,16 @@ El algoritmo funciona de la siguiente manera:
     \item Se repiten los pasos 2-5 muchas veces para alcanzar el equilibrio térmico.
 \end{enumerate}
 
-Este proceso permite al sistema evolucionar hacia el equilibrio térmico, muestreando configuraciones de acuerdo con la distribución de Boltzmann. Es particularmente eficaz para el Modelo de Ising, ya que permite simular el comportamiento del sistema a diferentes temperaturas y estudiar fenómenos como la transición de fase ferromagnética.
+Este proceso permite al sistema evolucionar hacia el equilibrio térmico, muestreando configuraciones de acuerdo con la distribución de Boltzmann. Es eficaz para el Modelo de Ising, ya que permite simular el comportamiento del sistema a diferentes temperaturas y estudiar fenómenos como la transición de fase ferromagnética.
 
 
 \section{Metodología}
 
-Para simular el Modelo de Ising en dos dimensiones, emplearemos una representación matricial implementada con la biblioteca NumPy de Python. Nuestro enfoque se basa en la creación de una red cuadrada de longitud L, representada mediante un arreglo NumPy de forma L×L. Esta estructura bidimensional nos permite modelar de manera eficiente la disposición espacial de los spines en el sistema.
+Para simular el Modelo de Ising en dos dimensiones, emplearemos una representación matricial implementada con la biblioteca NumPy de Python. Creamos una red cuadrada de longitud L, representada mediante un arreglo NumPy de forma L×L. Esta estructura bidimensional nos permite modelar de manera eficiente la disposición espacial de los spines en el sistema.
 
-En esta representación, cada elemento del arreglo corresponde a un spin individual. Los valores de estos elementos se limitan a +1 o -1, simbolizando spines orientados hacia arriba o hacia abajo, respectivamente. Esta dicotomía refleja la naturaleza binaria del Modelo de Ising, capturando la esencia de los estados magnéticos en un material ferromagnético.
+En esta representación, cada elemento del arreglo corresponde a un spin individual. Los valores de estos elementos se limitan a +1 o -1, simbolizando spines orientados hacia arriba o hacia abajo, respectivamente.
 
-La elección de esta estructura matricial no es arbitraria. La forma del arreglo nos brinda una ventaja significativa al facilitar el acceso a los vecinos más cercanos de cada spin. Esta característica es fundamental para nuestro estudio, ya que las interacciones entre spines adyacentes son el núcleo del comportamiento del sistema Ising. La capacidad de calcular rápidamente estas interacciones locales es crucial para implementar eficientemente el algoritmo de Metrópolis y simular con precisión la evolución del sistema.
-
-Esta representación matricial nos proporciona una estructura de datos no solo eficiente, sino también intuitiva y fácil de manipular. Nos permite implementar el algoritmo de Metrópolis de manera directa, facilitando la simulación de la dinámica del sistema Ising a lo largo del tiempo y bajo diferentes condiciones. Con esta base, podemos proceder a explorar cómo el sistema responde a variaciones en la temperatura, el campo magnético externo, y otros parámetros relevantes del modelo.
-
-Esta representación nos proporciona una estructura de datos eficiente y fácil de manipular para implementar el algoritmo de Metrópolis y simular la evolución del sistema Ising.
+Esta representación matricial nos proporciona una estructura de datos no solo eficiente, sino también intuitiva y fácil de manipular. Nos permite implementar el algoritmo de Metrópolis de manera directa, facilitando la simulación de la dinámica del sistema Ising a lo largo del tiempo y bajo diferentes condiciones.
 
 \subsection*{Cálculo de la Energía}
 
@@ -140,13 +136,11 @@ Para analizar el comportamiento termodinámico del sistema, implementamos funcio
 
 Estas funciones se aplican a los resultados de las simulaciones para diferentes temperaturas, permitiéndonos estudiar cómo varían estas propiedades termodinámicas en función de la temperatura. Para visualizar estos resultados, implementamos la función \texttt{graficar\_cv}, que genera gráficos del calor específico en función de la temperatura.
 
-Además, para identificar la temperatura crítica, buscamos el máximo en la curva del calor específico. Este enfoque se basa en la observación de que la susceptibilidad magnética y el calor específico tienden a mostrar un pico pronunciado cerca de la temperatura crítica en el modelo de Ising.
+Para identificar la temperatura crítica, buscamos el máximo en la curva del calor específico. Este enfoque se basa en la observación de que la susceptibilidad magnética y el calor específico tienden a mostrar un pico pronunciado cerca de la temperatura crítica en el modelo de Ising \cite{3933} \cite{sandvik2010computational}.
 
 \subsection*{Verificando la relación entre el máximo Cv y $ln(L)$}
 
-Para estudiar la transición de fase ferromagnética en el modelo de Ising, implementamos un análisis de escalamiento de tamaño finito. Este método nos permite investigar cómo el comportamiento crítico del sistema depende del tamaño de la red, lo que es crucial para entender la naturaleza de la transición de fase en el límite termodinámico.
-
-Nuestro enfoque incluye los siguientes pasos:
+Para estudiar la transición de fase ferromagnética en el modelo de Ising, implementamos un análisis de escalamiento de tamaño finito. Este método nos permite investigar cómo el comportamiento crítico del sistema depende del tamaño de la red.
 
 \begin{enumerate}
     \item Simulamos el sistema para diferentes tamaños de red (L), variando desde L = 10 hasta L = 30.
@@ -163,16 +157,11 @@ Para el modelo de Ising 2D en el punto crítico, se predice que el calor especí
 \end{equation}
 
 Implementamos una función \texttt{graficar\_Cv\_max\_vs\_log\_L} para visualizar esta relación y realizar el ajuste lineal. La pendiente de este ajuste nos proporciona información sobre la naturaleza logarítmica de la divergencia del calor específico en el punto crítico.
-
-Este enfoque nos permite verificar el comportamiento de escalamiento predicho por la teoría y caracterizar la naturaleza de la transición de fase en el modelo de Ising 2D.
-
-La validez de la relación $\frac{C_{v,max}}{L^2} \sim \ln(L)$ se verifica mediante el ajuste lineal de los datos. Un buen ajuste lineal en la gráfica de $\frac{C_{v,max}}{L^2}$ vs $\ln(L)$ confirma la relación logarítmica predicha por la teoría. 
+ 
 
 \subsection*{Determinación del Exponente Crítico $\gamma$}
 
 Para determinar el exponente crítico $\gamma$, que caracteriza el comportamiento de la magnetización cerca de la temperatura crítica, implementamos un enfoque basado en el análisis de la magnetización en función de la temperatura subcrítica.
-
-Nuestro procedimiento fue el siguiente:
 
 \begin{enumerate}
     \item Generamos un rango de temperaturas subcríticas cercanas a la temperatura crítica teórica ($T_c \approx 2.269$), con un paso fino de 0.001 para capturar el comportamiento crítico con precisión.
@@ -185,17 +174,15 @@ Nuestro procedimiento fue el siguiente:
     \begin{itemize}
         \item Grafica la magnetización promedio en función de la temperatura subcrítica.
         \item Realiza un ajuste logarítmico de la forma $|M| \sim (T_c - T)^\gamma$ para temperaturas por debajo de $T_c$.
-        \item Calcula el exponente crítico $\gamma$ a partir de la pendiente del ajuste log-log.
+        \item Calcula el exponente crítico $\gamma$ a partir de la pendiente del ajuste log-log y utilizando $\gamma = 2\beta$.
     \end{itemize}
 \end{enumerate}
 
-Este enfoque nos permite visualizar la transición de fase ferromagnética y obtener una estimación cuantitativa del exponente crítico $\gamma$. El valor esperado para $\gamma$ en el modelo de Ising 2D es aproximadamente 1/8 (0.125).
-
-La implementación de este método en Python utiliza bibliotecas científicas como NumPy para el manejo eficiente de datos y Matplotlib para la visualización. Además, empleamos técnicas de computación asíncrona para optimizar el tiempo de ejecución de las simulaciones, permitiendo un análisis más exhaustivo del comportamiento crítico del sistema.
+Así pudimos visualizar la transición de fase ferromagnética y obtener una estimación cuantitativa del exponente crítico $\gamma$.
 
 \subsection*{Determinación del Exponente Crítico $\epsilon$}
 
-Para determinar el exponente crítico $\epsilon$, que describe cómo la susceptibilidad magnética diverge cuando la temperatura se aproxima a la crítica desde arriba, implementamos el siguiente procedimiento:
+Para determinar el exponente crítico $\epsilon$, que se describe cómo la susceptibilidad magnética diverge cuando la temperatura se aproxima a la crítica desde arriba, implementamos el siguiente procedimiento:
 
 \begin{enumerate}
     \item Generamos un rango de temperaturas por encima de la temperatura crítica ($T_c = 2.269$), desde $T_c + 0.1$ hasta $T_c + 0.6$, con un paso fino de 0.005.
@@ -211,12 +198,12 @@ Para determinar el exponente crítico $\epsilon$, que describe cómo la suscepti
         \item Calcula el exponente crítico $\epsilon$ como la pendiente negativa de este ajuste lineal log-log.
     \end{itemize}
 
-    \item Utilizamos técnicas de computación asíncrona (\texttt{applicar\_en\_rtemp}) para optimizar el tiempo de ejecución de las simulaciones.
+    \item Utilizamos la función (\texttt{applicar\_en\_rtemp}) para optimizar el tiempo de ejecución de las simulaciones.
     
     \item Almacenamos los resultados en un diccionario (\texttt{temp\_a\_susc}) para su posterior análisis y visualización.
 \end{enumerate}
 
-Este enfoque nos permite estudiar el comportamiento crítico de la susceptibilidad magnética en la región paramagnética ($T > T_c$) y obtener una estimación del exponente crítico $\epsilon$. La relación que estamos probando es de la forma:
+De esta manera podemos estudiar el de la susceptibilidad magnética en la región paramagnética ($T > T_c$) y obtener una estimación del exponente crítico $\epsilon$. La relación que estamos probando es de la forma:
 
 \[ \chi \sim (T - T_c)^{\epsilon} \]
 
@@ -224,13 +211,7 @@ Tomando logaritmos en ambos lados, obtenemos:
 
 \[ \log(\chi) \sim \epsilon \log(T - T_c) \]
 
-Por lo tanto, la pendiente del gráfico log-log nos da directamente el valor de $\epsilon$. Nótese que $\epsilon$ es positivo en esta convención, y el signo negativo está implícito en la relación de escalamiento.
-
-La implementación en Python utiliza bibliotecas científicas como NumPy para el procesamiento de datos y Matplotlib para la visualización de resultados.
-
-El exponente $\epsilon$ es crucial para entender cómo el sistema responde a fluctuaciones magnéticas cerca del punto crítico y proporciona información valiosa sobre la universalidad de la transición de fase en el modelo de Ising. Teóricamente, para el modelo de Ising en 2D, esperamos un valor de $\epsilon \approx 7/4 \approx 1.75$.
-
-
+Por lo tanto, la pendiente del gráfico log-log nos da directamente el valor de $\epsilon$. Nótese que $\epsilon$ es positivo en esta convención, y el signo negativo está implícito en la relación de escalamiento. Teóricamente, para el modelo de Ising en 2D, esperamos un valor de $\epsilon \approx 7/4 \approx 1.75$.
 
 
 
@@ -238,64 +219,106 @@ El exponente $\epsilon$ es crucial para entender cómo el sistema responde a flu
 
 \subsection*{Comparación entre Arranque en Frío y Caliente}
 
-Las simulaciones realizadas con diferentes condiciones iniciales y a distintas temperaturas revelaron patrones significativos en la evolución del sistema de Ising. A baja temperatura (T = 0.1), observamos un comportamiento marcadamente diferente entre los dos tipos de inicialización. El arranque en frío mantuvo una alta magnetización y baja energía a lo largo de la simulación, indicativo de un estado altamente ordenado. En contraste, el arranque en caliente mostró una rápida transición hacia este estado ordenado, convergiendo eventualmente con los resultados del arranque en frío. En ambos casos, la energía se estabilizó en valores bajos, consistente con un estado ferromagnético característico de bajas temperaturas.
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/frioCaliente01.png}
+    \caption{Evolución de la energía y magnetización para arranques en frío y caliente a temperatura igual a 0.1.}
+    \label{fig:frioCaliente01}
+\end{figure}
 
-Para la temperatura intermedia (T = 3), cercana al punto crítico, las simulaciones mostraron fluctuaciones más pronunciadas tanto en la magnetización como en la energía. Este comportamiento es típico de sistemas cerca de una transición de fase. Aunque inicialmente los resultados para arranques en frío y caliente diferían significativamente, observamos una convergencia gradual después de un número considerable de pasos de Monte Carlo. Esta convergencia sugiere que, cerca del punto crítico, el sistema requiere más tiempo para equilibrarse y las condiciones iniciales tienen un efecto más duradero en la evolución del sistema.
+Las simulaciones realizadas con diferentes condiciones iniciales y a distintas temperaturas revelaron patrones significativos en la evolución del sistema de Ising. A baja temperatura (T = 0.1) \ref{fig:frioCaliente01}, observamos un comportamiento marcadamente diferente entre los dos tipos de inicialización. El arranque en frío mantuvo una alta magnetización y baja energía a lo largo de la simulación, indicativo de un estado altamente ordenado. En contraste, el arranque en caliente mostró una rápida transición hacia este estado ordenado, convergiendo eventualmente con los resultados del arranque en frío. En ambos casos, la energía se estabilizó en valores bajos, consistente con un estado ferromagnético característico de bajas temperaturas.
 
-En el régimen de alta temperatura (T = 100), tanto el arranque en frío como el caliente convergieron rápidamente a un estado de alta entropía. La magnetización promedio se aproximó a cero, indicativo de un estado paramagnético donde los spines están orientados aleatoriamente. La energía del sistema se estabilizó en valores significativamente más altos en comparación con las simulaciones a temperaturas más bajas, reflejando el mayor desorden térmico presente a altas temperaturas.
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/frioCaliente3.png}
+    \caption{Evolución de la energía y magnetización para arranques en frío y caliente a temperatura igual a 3.}
+    \label{fig:frioCaliente3}
+\end{figure}
 
-La Figura \ref{fig:comparacion_frio_caliente} ilustra la evolución de la energía y la magnetización para ambos tipos de inicialización a las tres temperaturas estudiadas. Esta visualización permite apreciar cómo las condiciones iniciales afectan la evolución del sistema, especialmente en las etapas tempranas de la simulación y a temperaturas cercanas a la crítica.
+Para la temperatura intermedia (T = 3) \ref{fig:frioCaliente3}, cercana al punto crítico, las simulaciones mostraron fluctuaciones más pronunciadas tanto en la magnetización como en la energía. Este comportamiento es típico de sistemas cerca de una transición de fase. Aunque inicialmente los resultados para arranques en frío y caliente diferían significativamente, observamos una convergencia gradual después de un número considerable de pasos de Monte Carlo. Esta convergencia sugiere que, cerca del punto crítico, el sistema requiere más tiempo para equilibrarse y las condiciones iniciales tienen un efecto más duradero en la evolución del sistema.
 
-% \begin{figure}[h]
-%     \centering
-%     \includegraphics[width=0.8\textwidth]{comparacion_frio_caliente.png}
-%     \caption{Evolución de la energía y magnetización para arranques en frío y caliente a diferentes temperaturas.}
-%     \label{fig:comparacion_frio_caliente}
-% \end{figure}
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/frioCaliente100.png}
+    \caption{Evolución de la energía y magnetización para arranques en frío y caliente a temperatura igual a 100.}
+    \label{fig:frioCaliente100}
+\end{figure}
+
+En el régimen de alta temperatura (T = 100) \ref{fig:frioCaliente100}, tanto el arranque en frío como el caliente convergieron rápidamente a un estado de alta entropía. La magnetización promedio se aproximó a cero, indicativo de un estado paramagnético donde los spines están orientados aleatoriamente. La energía del sistema se estabilizó en valores significativamente más altos en comparación con las simulaciones a temperaturas más bajas, reflejando el mayor desorden térmico presente a altas temperaturas.
 
 Estos resultados subrayan la importancia de considerar las condiciones iniciales en simulaciones de sistemas magnéticos, particularmente en la vecindad de la temperatura crítica. Asimismo, demuestran cómo el sistema tiende a equilibrarse independientemente de las condiciones iniciales, aunque el tiempo necesario para alcanzar el equilibrio varía significativamente con la temperatura. Esta investigación proporciona una visión valiosa sobre la dinámica del modelo de Ising y cómo las condiciones iniciales y la temperatura influyen en la evolución del sistema hacia el equilibrio termodinámico.
 
 \subsection*{Resultados del Análisis Termodinámico}
 
-La aplicación de nuestra metodología para calcular el calor específico y la susceptibilidad magnética produjo resultados notablemente consistentes con las expectativas teóricas para el modelo de Ising en dos dimensiones. A través de un análisis minucioso de los picos en las curvas del calor específico y la susceptibilidad magnética, logramos identificar de manera consistente una temperatura crítica de $T_c = 2.3 \pm 0.1$. Este hallazgo es particularmente satisfactorio, ya que el intervalo de incertidumbre incluye la temperatura crítica teórica conocida para el modelo de Ising 2D, que es aproximadamente 2.269.
+La aplicación de nuestra metodología para calcular el calor específico y la susceptibilidad magnética produjo resultados notablemente consistentes con las expectativas teóricas para el modelo de Ising en dos dimensiones. A través de un análisis minucioso de los picos en las curvas del calor específico y la susceptibilidad magnética, logramos identificar de manera consistente una temperatura crítica de $T_c = 2.3 \pm 0.1$. Este hallazgo es particularmente satisfactorio, ya que el intervalo de incertidumbre incluye la temperatura crítica teórica de 2.269.
 
-Para visualizar estos resultados, implementamos funciones especializadas como \texttt{graficar\_cv} para el calor específico y una función análoga para la susceptibilidad magnética. Los gráficos resultantes mostraron un comportamiento coherente y revelador, con picos pronunciados en la misma región de temperatura para ambas cantidades. Esta concordancia no solo corrobora mutuamente la ubicación de la temperatura crítica, sino que también proporciona una validación visual convincente de nuestros métodos computacionales.
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/puntoCritico1.png}
+    \caption{Punto crítico encontrado utilizando la susceptibilidad.}
+    \label{fig:puntoCritico1}
+\end{figure}
 
-El comportamiento crítico observado en nuestras simulaciones es especialmente notable. Tanto el calor específico como la susceptibilidad magnética exhiben un aumento dramático cerca de la temperatura crítica identificada. Este fenómeno es característico de una transición de fase de segundo orden, precisamente lo que se espera en el modelo de Ising 2D. La marcada similitud entre nuestros resultados numéricos y las predicciones teóricas subraya la precisión y efectividad de nuestro enfoque metodológico.
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/puntoCritico2.png}
+    \caption{Punto crítico encontrado utilizando el calor específico.}
+    \label{fig:puntoCritico2}
+\end{figure}
 
-La concordancia entre nuestra temperatura crítica estimada y el valor teórico conocido no solo valida la robustez de nuestra implementación del modelo de Ising, sino que también demuestra el poder y la utilidad de las técnicas de simulación de Monte Carlo en el estudio de fenómenos críticos en sistemas físicos complejos. Estos resultados refuerzan la importancia de las herramientas computacionales en la física estadística moderna, ofreciendo una vía para explorar y comprender comportamientos emergentes en sistemas de muchos cuerpos que a menudo desafían el análisis analítico directo.
+Para visualizar estos resultados, implementamos las funciones \texttt{graficar\_cv} para el calor específico y una función análoga para la susceptibilidad magnética. Los gráficos resultantes mostraron un comportamiento coherente, con picos pronunciados en la misma región de temperatura para ambas cantidades. Esta concordancia no solo corrobora mutuamente la ubicación de la temperatura crítica, sino que también proporciona una validación visual convincente de nuestros métodos computacionales.
 
-En resumen, nuestro análisis termodinámico del modelo de Ising 2D, basado en simulaciones de Monte Carlo y cálculos de observables críticos, ha proporcionado una imagen coherente y físicamente rica de la transición de fase ferromagnética. La precisión en la determinación de la temperatura crítica y la clara visualización del comportamiento crítico en el calor específico y la susceptibilidad magnética demuestran el éxito de nuestra aproximación computacional al estudio de este paradigmático modelo de mecánica estadística.
+El comportamiento crítico observado en nuestras simulaciones es especialmente notable. Tanto el calor específico \ref{fig:puntoCritico2} como la susceptibilidad magnética \ref{fig:puntoCritico1} exhiben un aumento dramático cerca de la temperatura crítica identificada. Este fenómeno es característico de una transición de fase de segundo orden, precisamente lo que se espera en el modelo de Ising 2D. 
 
 \subsection*{Resultados del Análisis de Escalamiento}
 
 El análisis de escalamiento de tamaño finito para el calor específico máximo reveló resultados consistentes con las predicciones teóricas. Como se esperaba, observamos una clara relación lineal entre $max(\frac{C_v}{L^2})$ y $\ln(L)$. Esta linealidad confirma la validez de la relación logarítmica predicha por la teoría para el comportamiento crítico del calor específico en el punto de transición.
 
-La gráfica resultante, que se presentará en una figura posterior, muestra una tendencia lineal bien definida. Los puntos de datos para diferentes tamaños de red se alinean de manera consistente a lo largo de una línea recta, lo que proporciona una fuerte evidencia visual de la relación logarítmica. El ajuste lineal realizado a estos datos no solo confirma esta relación, sino que también nos permite cuantificar la pendiente de la línea, que está directamente relacionada con la naturaleza de la divergencia del calor específico en el punto crítico.
 
-Esta observación es de gran importancia, ya que valida la teoría de escalamiento para el modelo de Ising 2D y demuestra la capacidad de nuestras simulaciones para capturar con precisión el comportamiento crítico del sistema. Además, este resultado respalda la idea de que, en el límite termodinámico $(L \to \infty)$, el calor específico exhibiría una divergencia logarítmica en la temperatura crítica, un hallazgo fundamental en la teoría de las transiciones de fase de segundo orden.
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/cv_sobre_logL.png}
+    \caption{Encaje lineal del máximo calor específico sobre $\ln L$ mostrando una pendiente aproximadamente igual a la unidad.}
+    \label{fig:cvSobreLogL}
+\end{figure}
 
+
+La gráfica resultante \ref{fig:cvSobreLogL} muestra una tendencia lineal bien definida. Los puntos de datos para diferentes tamaños de red tienen una tendencia dispersa pero consistente a lo largo de una línea dirección. El ajuste lineal realizado a estos datos no solo confirma esta relación, sino que también nos permite cuantificar la pendiente de la línea.
+
+Esta observación valida la teoría de escalamiento para el modelo de Ising 2D y demuestra la capacidad de nuestras simulaciones para capturar con precisión el comportamiento crítico del sistema. Además, este resultado respalda la idea de que en el límite termodinámico $(L \to \infty)$, el calor específico exhibiría una divergencia logarítmica en la temperatura crítica.
 
 \subsection*{Determinación del Exponente Crítico $\gamma$}
 
-El análisis del comportamiento crítico de la magnetización en función de la temperatura subcrítica reveló resultados consistentes con las predicciones teóricas para el modelo de Ising 2D. Mediante la implementación de nuestro enfoque basado en simulaciones Monte Carlo y análisis de datos, logramos obtener una estimación precisa del exponente crítico $\gamma$.
+El análisis del comportamiento crítico de la magnetización en función de la temperatura subcrítica reveló resultados consistentes con las predicciones teóricas para el modelo de Ising 2D. Mediante  simulaciones Monte Carlo y análisis de datos, logramos obtener una estimación del exponente crítico $\gamma = 0.125$.
 
-Nuestras simulaciones, realizadas en un amplio rango de temperaturas subcríticas cercanas a la temperatura crítica teórica ($T_c \approx 2.269$), mostraron una clara transición de fase ferromagnética. La magnetización promedio exhibió un comportamiento característico, disminuyendo rápidamente a medida que la temperatura se aproximaba a $T_c$ desde abajo. Este comportamiento se visualizó claramente en la gráfica de magnetización promedio versus temperatura, donde se observó una caída abrupta cerca del punto crítico.
+La magnetización promedio exhibió un comportamiento característico, disminuyendo rápidamente a medida que la temperatura se aproximaba a $T_c$ desde abajo. Este comportamiento se visualizó claramente en la gráfica de magnetización promedio versus temperatura, donde se observó una caída abrupta cerca del punto crítico.
 
-El análisis cuantitativo de estos datos, realizado mediante un ajuste logarítmico de la forma $\langle M \rangle \sim (T_c - T)^\gamma$, proporcionó una estimación robusta del exponente crítico $\gamma$. Notablemente, el valor obtenido para $\gamma$ fue muy cercano a 1/8 (0.125), en excelente acuerdo con el valor teórico esperado para el modelo de Ising 2D. Este resultado se evidencia en la figura [número de figura], donde se muestra el ajuste log-log de los datos experimentales.
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/gamma.png}
+    \caption{Encontrando gamma utilizando un encaje logarítmico de la magnetización promedio contra temperatura subcrítica.}
+    \label{fig:gamma}
+\end{figure}
 
-La precisión de nuestra estimación se debe en gran parte a la cuidadosa selección de parámetros de simulación, incluyendo el uso de una red de tamaño L = 30, que equilibra la minimización de efectos de tamaño finito con la eficiencia computacional. Además, el empleo de técnicas de computación asíncrona permitió un muestreo extensivo del espacio de fases, contribuyendo a la robustez de nuestros resultados.
+El análisis cuantitativo de estos datos, realizado mediante un ajuste logarítmico de la forma $\langle M \rangle \sim (T_c - T)^\gamma$, proporcionó una estimación robusta del exponente crítico $\gamma$. Notablemente, el valor obtenido para $\gamma$ fue muy cercano a 1/8 (0.125), en excelente acuerdo con el valor teórico esperado para el modelo de Ising 2D. Este resultado se evidencia en la figura \ref{fig:gamma}, donde se muestra el ajuste log-log de los datos experimentales.
+
 
 Esta concordancia entre nuestros resultados experimentales y las predicciones teóricas no solo valida la efectividad de nuestro enfoque computacional, sino que también reafirma la universalidad del comportamiento crítico en el modelo de Ising 2D. La obtención de un valor tan preciso para $\gamma$ subraya la potencia de los métodos de Monte Carlo en el estudio de transiciones de fase y fenómenos críticos en sistemas magnéticos.
 
 \subsection*{Resultados del Exponente Crítico $\epsilon$}
 
-En nuestro análisis del comportamiento crítico del modelo de Ising, nos enfocamos en determinar el exponente crítico $\epsilon$, que describe cómo la susceptibilidad magnética diverge cuando la temperatura se aproxima a la crítica desde arriba.
+En nuestro análisis del comportamiento crítico del modelo de Ising, nos enfocamos también en determinar el exponente crítico $\epsilon$, que describe cómo la susceptibilidad magnética diverge cuando la temperatura se aproxima a la crítica desde arriba.
 
 Utilizando el procedimiento descrito anteriormente, realizamos simulaciones para un rango de temperaturas por encima de la temperatura crítica teórica ($T_c \approx 2.269$). Calculamos la susceptibilidad magnética para cada temperatura y realizamos un ajuste lineal en una escala log-log de la susceptibilidad en función de la temperatura reducida $(T - T_c)$.
 
-El resultado de este ajuste nos permitió determinar un valor para el exponente crítico $\epsilon$. Encontramos que $\epsilon = 0.0529$, lo cual es consistente con los valores teóricos esperados para el modelo de Ising en dos dimensiones. Este resultado confirma la precisión de nuestras simulaciones y el enfoque metodológico utilizado para el análisis del comportamiento crítico del sistema.
+El resultado de este ajuste nos permitió determinar un valor para el exponente crítico $\epsilon$. Encontramos que $\epsilon = 0.4561$, lo cual muestra una inconsistencia  con los valores teóricos esperados para el modelo de Ising en dos dimensiones y podría deberse a una presencia notable de ruido entre las temperaturas supercríticas del modelo. La figura \ref{fig:epsilon}  muestra el fit.
 
+\begin{figure}[hbt]
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/epsilon.png}
+    \caption{Tratando de encontrar epsilon mediante un encaje de la susceptibilidad contra la temperatura reducida por la derecha de la temperatura crítica.}
+    \label{fig:epsilon}
+\end{figure}
 
 \section{Conclusiones}
 
