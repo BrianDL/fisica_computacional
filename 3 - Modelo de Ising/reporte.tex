@@ -8,17 +8,26 @@
 % \usepackage{natbib}
 
 \title{Modelo de Ising con el Algoritmo de Metrópolis}
-\author{Tu Nombre}
-\date{}
+\author{Brian David Leiva - ECFM, USAC}
+\date{Noviembre, 2024}
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
+Este estudio investiga el Modelo de Ising en dos dimensiones mediante el uso del algoritmo de Metrópolis, un método de Monte Carlo eficaz para simular sistemas complejos. El objetivo principal es analizar las propiedades termodinámicas del sistema, como la energía y la magnetización, bajo diferentes condiciones iniciales y temperaturas. Utilizando una representación matricial implementada en Python, se simula la evolución del sistema hacia el equilibrio térmico. Los resultados demuestran la capacidad del modelo para capturar transiciones de fase y proporcionan una comprensión más profunda del comportamiento de sistemas magnéticos. Este trabajo destaca la relevancia del Modelo de Ising en la física estadística y su aplicabilidad en diversas áreas científicas.
 \end{abstract}
 
 \section{Introducción}
+
+El Modelo de Ising es un modelo muy importante en la física estadística que describe el comportamiento de sistemas magnéticos. Propuesto inicialmente para entender el ferromagnetismo, el modelo ha encontrado aplicaciones en diversas áreas de la ciencia, incluyendo la biología, la economía y la teoría de redes. A pesar de su simplicidad, el Modelo de Ising captura la esencia de las transiciones de fase, un fenómeno crítico en la física de materiales.
+
+En este trabajo, exploramos el Modelo de Ising en dos dimensiones utilizando el algoritmo de Metrópolis, un método de Monte Carlo ampliamente utilizado para simular sistemas complejos. Este enfoque nos permite estudiar el comportamiento del sistema bajo diferentes condiciones iniciales y temperaturas, proporcionando una visión detallada de las propiedades termodinámicas del modelo.
+
+El documento está estructurado de la siguiente manera: comenzamos con una revisión del marco teórico del Modelo de Ising y el algoritmo de Metrópolis. A continuación, describimos la metodología empleada para la simulación, incluyendo la implementación computacional y las técnicas de análisis de datos. Finalmente, presentamos los resultados de nuestras simulaciones, comparando diferentes condiciones iniciales y discutiendo las implicaciones de nuestros hallazgos en el contexto de la física estadística.
+
+El análisis de datos está disponible en forma de cuaderno de python \cite{ising_notebook}.
 
 \section{Marco Teórico}
 \subsection*{El Modelo de Ising}
@@ -321,6 +330,16 @@ El resultado de este ajuste nos permitió determinar un valor para el exponente 
 \end{figure}
 
 \section{Conclusiones}
+
+En este trabajo, hemos explorado el Modelo de Ising en dos dimensiones utilizando el algoritmo de Metrópolis. A través de nuestras simulaciones, hemos podido observar cómo las propiedades termodinámicas del sistema, como la energía y la magnetización, evolucionan bajo diferentes condiciones iniciales y temperaturas.
+
+Nuestros resultados confirman que el Modelo de Ising exhibe una transición de fase ferromagnética a una temperatura crítica, donde la magnetización del sistema cambia drásticamente. Este comportamiento es consistente con las predicciones teóricas y destaca la capacidad del modelo para capturar la esencia de las transiciones de fase en sistemas magnéticos.
+
+Además, la comparación entre las inicializaciones en frío y caliente revela que, aunque ambas convergen al mismo estado de equilibrio, el tiempo necesario para alcanzar este estado puede variar significativamente. Esto subraya la importancia de las condiciones iniciales en la simulación de sistemas complejos.
+
+En el futuro, sería interesante extender este estudio a redes tridimensionales o explorar el impacto de diferentes topologías de red en el comportamiento del sistema. También se podrían investigar otros algoritmos de Monte Carlo para mejorar la eficiencia de las simulaciones.
+
+El uso del algoritmo de Metrópolis para simular el Modelo de Ising proporciona una herramienta útil para estudiar fenómenos críticos en física estadística, ofreciendo valiosas perspectivas sobre el comportamiento de sistemas magnéticos y más allá.
 
 \bibliographystyle{plain}
 \bibliography{referencias}
